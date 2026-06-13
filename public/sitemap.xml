@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset
+  xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+>
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/sample-report</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/how-to-fix-mismatched-product-price</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/how-to-fix-mismatched-product-availability</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/how-to-fix-mismatched-domains</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.9</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/different-product-landing-page-checklist</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/pending-website-check-readiness</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+
+  <url>
+    <loc>https://merchant-listing-preflight.pages.dev/guides/product-offer-structured-data-checklist</loc>
+    <lastmod>2026-06-13</lastmod>
+    <priority>0.8</priority>
+  </url>
+</urlset>

@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://merchant-listing-preflight.pages.dev/sitemap.xml
