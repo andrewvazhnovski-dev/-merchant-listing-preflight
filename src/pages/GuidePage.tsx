@@ -89,7 +89,7 @@ function GuidePage() {
           <Link to="/sample-report">Sample report</Link>
         </nav>
 
-        <Link className="header-cta" to="/#checker">
+        <Link className="header-cta" to="/#order">
           Run free check
         </Link>
       </header>
@@ -109,7 +109,7 @@ function GuidePage() {
           <p>{guide.intro}</p>
 
           <div className="hero-actions">
-            <Link className="btn primary" to="/#checker">
+            <Link className="btn primary" to="/#order">
               Run free preflight
             </Link>
 
@@ -174,7 +174,7 @@ function GuidePage() {
             </p>
           </div>
 
-          <Link className="btn primary" to="/#pricing">
+          <Link className="btn primary" to="/#order">
             See pricing
           </Link>
         </section>

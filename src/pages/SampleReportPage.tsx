@@ -35,7 +35,7 @@ function SampleReportPage() {
           <Link to="/guides/how-to-fix-mismatched-product-price">Guides</Link>
         </nav>
 
-        <Link className="header-cta" to="/#checker">
+        <Link className="header-cta" to="/#order">
           Run free check
         </Link>
       </header>
@@ -147,7 +147,7 @@ function SampleReportPage() {
             </p>
           </div>
 
-          <Link className="btn primary" to="/#checker">
+          <Link className="btn primary" to="/#order">
             Run free preflight
           </Link>
         </section>
