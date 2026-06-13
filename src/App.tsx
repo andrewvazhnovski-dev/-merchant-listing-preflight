@@ -2,6 +2,7 @@ import { useMemo, useState, type ChangeEvent } from "react";
 import { Route, Routes } from "react-router-dom";
 import GuidePage from "./pages/GuidePage";
 import SampleReportPage from "./pages/SampleReportPage";
+import OrderForm from "./components/OrderForm";
 
 type CsvRow = Record<string, string>;
 
@@ -47,8 +48,6 @@ type SchemaAnalysis = {
 };
 
 type JsonMap = Record<string, unknown>;
-
-const CONTACT_EMAIL = "flankero2146@gmail.com";
 
 const demoCsv = `Item ID,Title,Link,Issue,Status,Price,Availability
 SKU-1001,Blue Running Shoes,https://example.com/products/blue-running-shoes,Mismatched product price,Disapproved,79.99 USD,in stock
@@ -611,26 +610,6 @@ function analyzeSchemaInput(input: string): SchemaAnalysis {
   };
 }
 
-function getMailTo(planName: string): string {
-  const subject = encodeURIComponent(
-    `Merchant Listing Preflight - ${planName}`,
-  );
-  const body = encodeURIComponent(`Hi,
-
-I want to order the ${planName}.
-
-Store URL:
-Target country:
-Target currency:
-Merchant Center issue title:
-Affected-products CSV attached:
-3-5 affected product URLs:
-
-Thanks.`);
-
-  return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-}
-
 function HomePage() {
   const [activeTab, setActiveTab] = useState<"csv" | "schema">("csv");
   const [csvAnalysis, setCsvAnalysis] = useState<CsvAnalysis | null>(null);
@@ -1064,12 +1043,16 @@ function HomePage() {
                   ))}
                 </ul>
 
-                <a className="btn primary full" href={getMailTo(plan.name)}>
-                  Order {plan.name}
+                <a className="btn primary full" href="#order">
+                  Request {plan.name}
                 </a>
               </article>
             ))}
           </div>
+        </section>
+
+        <section id="order" className="section">
+          <OrderForm />
         </section>
 
         <section id="sample" className="section sample-section">
