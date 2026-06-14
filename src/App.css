@@ -2002,3 +2002,106 @@ textarea:focus {
     justify-content: flex-start;
   }
 }
+
+@media (max-width: 420px) {
+  .page {
+    padding-inline: 10px;
+  }
+
+  .header {
+    margin-top: 10px;
+    padding: 12px;
+    border-radius: 22px;
+  }
+
+  .content-page {
+    padding-top: 48px;
+  }
+
+  .content-hero {
+    margin-bottom: 42px;
+  }
+
+  .content-hero h1,
+  .hero h1 {
+    font-size: clamp(38px, 12vw, 52px);
+    line-height: 0.98;
+  }
+
+  .content-hero p,
+  .hero-text {
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .article-section,
+  .article-card,
+  .issue-hub-card,
+  .guide-card,
+  .longform-section,
+  .order-form-card,
+  .featured-guides-card {
+    padding: 20px;
+    border-radius: 24px;
+  }
+
+  .article-section h2,
+  .related-section h2,
+  .section-heading h2,
+  .article-cta h2,
+  .longform-section h2 {
+    font-size: clamp(30px, 10vw, 42px);
+    line-height: 1;
+  }
+
+  .issue-hub-card h2,
+  .guide-card h3,
+  .featured-guide-item h3 {
+    font-size: 24px;
+    line-height: 1.1;
+  }
+
+  .hero-actions {
+    gap: 10px;
+  }
+
+  .btn {
+    min-height: 48px;
+    padding: 13px 16px;
+  }
+
+  .content-grid,
+  .issue-hub-grid,
+  .related-grid,
+  .guides-index-grid,
+  .featured-guides-grid,
+  .checklist-panel {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 340px) {
+  .logo {
+    max-width: 220px;
+  }
+
+  .logo-mark {
+    width: 38px;
+    height: 38px;
+    min-width: 38px;
+    font-size: 14px;
+  }
+
+  .logo span:last-child {
+    font-size: 12px;
+  }
+
+  .content-hero h1,
+  .hero h1 {
+    font-size: 36px;
+  }
+
+  .content-page {
+    padding-top: 36px;
+  }
+}
