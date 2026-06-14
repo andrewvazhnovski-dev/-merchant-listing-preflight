@@ -16,6 +16,7 @@ import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
 import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPage";
 import GoogleMerchantCenterReviewChecklistPage from "./pages/GoogleMerchantCenterReviewChecklistPage";
 import MerchantCenterDiagnosticReportPage from "./pages/MerchantCenterDiagnosticReportPage";
+import SEOCanonical from "./components/SEOCanonical";
 
 type CsvRow = Record<string, string>;
 
@@ -1285,31 +1286,34 @@ function HomePage() {
 
 function App() {
   return (
-    <Routes>
-      <Route path="/" element={<HomePage />} />
-      <Route
-        path="/merchant-center-issues"
-        element={<MerchantCenterIssuesPage />}
-      />
-      <Route
-        path="/affected-products-csv-checker"
-        element={<AffectedProductsCsvCheckerPage />}
-      />
-      <Route
-        path="/google-merchant-center-review-checklist"
-        element={<GoogleMerchantCenterReviewChecklistPage />}
-      />
-      <Route
-        path="/merchant-center-diagnostic-report"
-        element={<MerchantCenterDiagnosticReportPage />}
-      />
-      <Route path="/guides" element={<GuidesIndexPage />} />
-      <Route path="/guides/:slug" element={<GuidePage />} />
-      <Route path="/sample-report" element={<SampleReportPage />} />
-      <Route path="/terms" element={<TermsPage />} />
-      <Route path="/privacy" element={<PrivacyPage />} />
-      <Route path="*" element={<HomePage />} />
-    </Routes>
+    <>
+      <SEOCanonical />
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route
+          path="/merchant-center-issues"
+          element={<MerchantCenterIssuesPage />}
+        />
+        <Route
+          path="/affected-products-csv-checker"
+          element={<AffectedProductsCsvCheckerPage />}
+        />
+        <Route
+          path="/google-merchant-center-review-checklist"
+          element={<GoogleMerchantCenterReviewChecklistPage />}
+        />
+        <Route
+          path="/merchant-center-diagnostic-report"
+          element={<MerchantCenterDiagnosticReportPage />}
+        />
+        <Route path="/guides" element={<GuidesIndexPage />} />
+        <Route path="/guides/:slug" element={<GuidePage />} />
+        <Route path="/sample-report" element={<SampleReportPage />} />
+        <Route path="/terms" element={<TermsPage />} />
+        <Route path="/privacy" element={<PrivacyPage />} />
+        <Route path="*" element={<HomePage />} />
+      </Routes>
+    </>
   );
 }
 
