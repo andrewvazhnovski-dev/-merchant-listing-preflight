@@ -13,6 +13,7 @@ import PaymentNote from "./components/PaymentNote";
 import FeaturedGuides from "./components/FeaturedGuides";
 import FAQSchema from "./components/FAQSchema";
 import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
+import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPage";
 
 type CsvRow = Record<string, string>;
 
@@ -661,6 +662,7 @@ function HomePage() {
 
           <nav className="nav">
             <a href="#checker">Checker</a>
+            <a href="/affected-products-csv-checker">CSV checker</a>
             <a href="/merchant-center-issues">Issues</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
@@ -794,6 +796,32 @@ function HomePage() {
 
               <a className="btn secondary" href="/merchant-center-issues">
                 Open issue checklist
+              </a>
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="csv-checker-promo">
+              <div>
+                <div className="eyebrow">Affected-products CSV checker</div>
+
+                <h2>
+                  Upload your Merchant Center CSV and group affected products
+                  faster.
+                </h2>
+
+                <p>
+                  Use the free preflight checker to detect issue columns, group
+                  affected rows and find sample product URLs before requesting a
+                  diagnostic report.
+                </p>
+              </div>
+
+              <a
+                className="btn secondary"
+                href="/affected-products-csv-checker"
+              >
+                Open CSV checker page
               </a>
             </div>
           </section>
@@ -1207,6 +1235,10 @@ function App() {
       <Route
         path="/merchant-center-issues"
         element={<MerchantCenterIssuesPage />}
+      />
+      <Route
+        path="/affected-products-csv-checker"
+        element={<AffectedProductsCsvCheckerPage />}
       />
       <Route path="/guides" element={<GuidesIndexPage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
