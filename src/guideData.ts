@@ -320,6 +320,116 @@ export const guidePages: GuidePageData[] = [
       "Verify the correct website in Merchant Center.",
       "Resubmit affected products after domain consistency is fixed.",
     ],
+    seoSections: [
+      {
+        title: "What mismatched domains means",
+        paragraphs: [
+          "The mismatched domains issue means Google detected that the domain submitted in your product data does not match the final landing page domain, verified website domain, redirect destination or canonical URL.",
+          "This can happen when a store changes domain, uses both www and non-www versions, redirects products through another domain, or keeps old product URLs inside the feed.",
+        ],
+      },
+      {
+        title: "Common causes of domain mismatch",
+        paragraphs: [
+          "Domain mismatch problems are usually caused by redirects, old feed URLs, inconsistent canonical tags or incorrect Merchant Center website verification.",
+          "Google needs to see a consistent domain path from the product feed to the final landing page. If the feed sends one domain but the page resolves to another, the product can be flagged.",
+        ],
+        bullets: [
+          "Feed links use an old domain.",
+          "Product URLs redirect to a different domain.",
+          "The store uses www in one place and non-www in another.",
+          "Canonical URLs point to another domain.",
+          "Merchant Center website verification uses the wrong domain.",
+          "Regional domains or subdomains are mixed incorrectly.",
+          "Product URLs pass through tracking or redirect domains.",
+        ],
+      },
+      {
+        title: "Feed URL vs final landing page URL",
+        paragraphs: [
+          "Start by opening several affected product URLs from the affected-products CSV. Check what domain appears in the feed and what domain appears after all redirects finish.",
+          "The safest setup is to submit the final product URL in the feed, using the same verified domain that users and Google can access directly.",
+        ],
+        bullets: [
+          "Copy the product URL from the feed or CSV.",
+          "Open it in the browser.",
+          "Check whether it redirects.",
+          "Compare the original feed domain with the final browser domain.",
+          "Make sure the final page still shows the same product.",
+        ],
+      },
+      {
+        title: "Redirect chain problems",
+        paragraphs: [
+          "Redirects are not always bad, but long or inconsistent redirect chains can create Merchant Center problems. A product URL may redirect from http to https, from non-www to www, from an old domain to a new domain, or from one country version to another.",
+          "If the final redirected page is on a domain that is not verified or expected, Google can treat the product as mismatched.",
+        ],
+        bullets: [
+          "Check http to https redirects.",
+          "Check www to non-www redirects.",
+          "Check old domain to new domain redirects.",
+          "Check whether product URLs redirect to homepage or category pages.",
+          "Check whether regional redirects change the domain.",
+        ],
+      },
+      {
+        title: "Canonical URL mismatch",
+        paragraphs: [
+          "Canonical tags tell search engines which URL is the preferred version of a page. If the product page loads on one domain but the canonical points to another domain, that can create a conflicting signal.",
+          "For Merchant Center troubleshooting, check the canonical tag on affected product pages and confirm that it matches the final verified product URL strategy.",
+        ],
+        bullets: [
+          "Open the affected product page source.",
+          "Find the canonical URL.",
+          "Compare canonical domain with final landing page domain.",
+          "Check whether canonical points to an old domain.",
+          "Check whether canonical points to a different product page.",
+        ],
+      },
+      {
+        title: "Verified website domain in Merchant Center",
+        paragraphs: [
+          "Merchant Center expects product landing pages to belong to the website domain verified and claimed in the account. If the verified domain does not match where products actually land, product URLs can be rejected or limited.",
+          "This is especially important after migrations, rebrands, Shopify domain changes, WooCommerce migrations or switching from a temporary domain to a custom domain.",
+        ],
+        bullets: [
+          "Check the verified website in Merchant Center.",
+          "Compare it with the final product page domain.",
+          "Make sure the correct domain is claimed.",
+          "Remove old temporary domains from feed links.",
+          "Use one consistent domain strategy across feed and website.",
+        ],
+      },
+      {
+        title: "Subdomain and regional domain issues",
+        paragraphs: [
+          "Stores sometimes use subdomains or regional domains for different countries, languages or storefronts. This can work, but the feed, target country, landing page and verification signals need to be aligned.",
+          "If your feed targets one country but redirects users to another regional domain, Google may see a mismatch between submitted product data and landing page experience.",
+        ],
+        bullets: [
+          "Check whether products use subdomains.",
+          "Check whether target country changes the landing domain.",
+          "Check hreflang and canonical setup.",
+          "Check whether checkout uses a different domain.",
+          "Check whether regional redirects are forced automatically.",
+        ],
+      },
+      {
+        title: "What to fix before requesting another review",
+        paragraphs: [
+          "Do not request another review until the feed URL, final landing page URL, canonical URL and verified Merchant Center website are consistent.",
+          "After fixing domain issues, test several affected products manually. Make sure each product URL lands on the correct product page without unexpected domain changes.",
+        ],
+        bullets: [
+          "Feed links use the final verified domain.",
+          "Redirect chains are clean and predictable.",
+          "Canonical URLs match the final product page domain.",
+          "Merchant Center website verification matches the store domain.",
+          "Regional redirects do not send users to the wrong domain.",
+          "Affected product URLs were checked manually before review.",
+        ],
+      },
+    ],
   },
   {
     slug: "different-product-landing-page-checklist",
