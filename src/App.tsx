@@ -696,7 +696,7 @@ function HomePage() {
                 <a className="btn primary" href="#checker">
                   Run free preflight
                 </a>
-                <a className="btn secondary" href="#sample">
+                <a className="btn secondary" href="/sample-report">
                   See sample report
                 </a>
               </div>
@@ -1144,16 +1144,18 @@ function HomePage() {
 
           <section className="section final-cta">
             <div>
-              <div className="eyebrow">Next step</div>
-              <h2>Ready for the first real launch version.</h2>
+              <div className="eyebrow">Ready to diagnose your issue?</div>
+              <h2>
+                Run the free preflight check or request a diagnostic report.
+              </h2>
               <p>
-                Replace the placeholder email, connect a payment link later,
-                then publish the first public MVP on a free host.
+                Use the checker to spot likely feed, landing page and structured
+                data problems before requesting another Merchant Center review.
               </p>
             </div>
 
-            <a className="btn primary" href="#checker">
-              Test the checker
+            <a className="btn primary" href="#order">
+              Request diagnostic report
             </a>
           </section>
         </main>
