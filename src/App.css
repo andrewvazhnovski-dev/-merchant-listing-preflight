@@ -1743,3 +1743,46 @@ textarea:focus {
     min-height: auto;
   }
 }
+
+.article-longform {
+  display: grid;
+  gap: 22px;
+  margin-bottom: 42px;
+}
+
+.longform-section {
+  padding: 30px;
+  border: 1px solid var(--border);
+  border-radius: 28px;
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      rgba(69, 224, 168, 0.07),
+      transparent 22rem
+    ),
+    var(--card);
+  box-shadow: var(--shadow);
+}
+
+.longform-section h2 {
+  margin-bottom: 16px;
+  font-size: clamp(30px, 4vw, 48px);
+  line-height: 0.98;
+}
+
+.longform-section p {
+  max-width: 920px;
+  margin-bottom: 14px;
+  color: var(--muted);
+  line-height: 1.75;
+}
+
+.longform-section .step-list {
+  margin-top: 18px;
+}
+
+@media (max-width: 760px) {
+  .longform-section {
+    padding: 22px;
+  }
+}

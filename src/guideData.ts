@@ -9,6 +9,11 @@ export type GuidePageData = {
   causes: string[];
   quickChecks: string[];
   fixSteps: string[];
+  seoSections?: {
+    title: string;
+    paragraphs: string[];
+    bullets?: string[];
+  }[];
 };
 
 export const guidePages: GuidePageData[] = [
@@ -46,6 +51,103 @@ export const guidePages: GuidePageData[] = [
       "Update Product / Offer JSON-LD price and priceCurrency.",
       "Clear page cache if your store uses caching.",
       "Wait for Merchant Center recrawl, then request review only after consistency is verified.",
+    ],
+    seoSections: [
+      {
+        title: "What mismatched product price means",
+        paragraphs: [
+          "The mismatched product price issue means Google detected a difference between the price submitted in your product data and the price shown on the product landing page. The mismatch can also come from Product / Offer structured data, sale price logic, currency changes, tax display or regional page versions.",
+          "This issue matters because price is one of the strongest product eligibility signals. If Google cannot confirm the same price across the feed, visible page and structured data, the product can become disapproved, limited or held back from merchant listings.",
+        ],
+      },
+      {
+        title: "Common causes of price mismatch",
+        paragraphs: [
+          "Most price mismatch cases are caused by timing, caching or inconsistent data sources. Your feed may update on one schedule, your store theme may show another value, and your JSON-LD markup may still contain an old price.",
+          "The safest way to diagnose the problem is to compare the affected-products CSV with the final landing page and the Product / Offer structured data on the same URL.",
+        ],
+        bullets: [
+          "Feed price updates slower than website price.",
+          "Sale price is visible on the page but missing from the feed.",
+          "Sale price effective date is wrong or expired.",
+          "Structured data contains an outdated Offer price.",
+          "Currency changes because of country, language or redirect logic.",
+          "The product page is cached and still shows an old value.",
+          "Variants expose different prices than the submitted product ID.",
+        ],
+      },
+      {
+        title: "Feed price vs landing page price",
+        paragraphs: [
+          "Start by opening several affected product URLs from the CSV. Compare the exact feed price with the price visible to a normal user on the landing page. Do not only check the homepage or category page. Google checks the final product URL.",
+          "If the landing page shows a sale price, discount price or variant price, the feed needs to reflect the same product price logic. Otherwise Google may treat the product as inconsistent.",
+        ],
+        bullets: [
+          "Check the exact affected product URL.",
+          "Compare the feed price with the visible landing page price.",
+          "Check whether the selected variant changes the price.",
+          "Check whether the price changes after choosing size, color or quantity.",
+          "Check whether tax is included or excluded differently by region.",
+        ],
+      },
+      {
+        title: "Sale price mistakes",
+        paragraphs: [
+          "Sale price issues are very common. A store may display a discount on the page while the feed still sends the regular price. The opposite can also happen: the feed sends a sale price, but the visible page no longer shows that discount.",
+          "If your store uses sale_price and sale_price_effective_date, both fields need to match the real active promotion. Expired promotions and cached discount banners can trigger repeated price mismatch issues.",
+        ],
+        bullets: [
+          "Confirm whether the sale is still active.",
+          "Check sale_price in the feed.",
+          "Check sale_price_effective_date.",
+          "Check whether the page still displays the sale price.",
+          "Clear cache after changing sale logic.",
+        ],
+      },
+      {
+        title: "Structured data price mismatch",
+        paragraphs: [
+          "Google can read Product / Offer structured data from the page. If the JSON-LD price is different from the visible price or feed price, this can create a conflicting signal.",
+          "Inspect the page source or use the free checker on this site. Look for Product, Offer, price and priceCurrency. The values should match the product data and visible product page.",
+        ],
+        bullets: [
+          "Check Product JSON-LD.",
+          "Check Offer price.",
+          "Check priceCurrency.",
+          "Check whether the theme or plugin outputs old schema.",
+          "Check whether multiple Product or Offer blocks expose different prices.",
+        ],
+      },
+      {
+        title: "Currency and regional pricing issues",
+        paragraphs: [
+          "Price mismatch can happen when the same product URL shows different currency or price depending on visitor location, language, device or redirect path. Google may crawl from a different region than the one you tested manually.",
+          "If your target country is the United States and your feed currency is USD, the landing page should reliably show the matching USD price for that target experience. Regional redirects and automatic currency switchers should be checked carefully.",
+        ],
+        bullets: [
+          "Check target country in Merchant Center.",
+          "Check feed currency.",
+          "Check whether the page redirects by country.",
+          "Check whether currency switchers change the visible price.",
+          "Check canonical and hreflang signals for regional pages.",
+        ],
+      },
+      {
+        title: "What to fix before requesting another review",
+        paragraphs: [
+          "Do not request another review immediately after changing one field. First verify consistency across feed data, landing page content and structured data. Then wait for cache and feed updates to settle.",
+          "A good review preparation process reduces repeated rejection loops. Save screenshots, affected URLs and notes about what was changed before requesting review again.",
+        ],
+        bullets: [
+          "Feed price matches visible product page price.",
+          "Sale price and sale date are correct.",
+          "Product / Offer JSON-LD matches the page.",
+          "Currency is consistent for the target country.",
+          "Product URL does not redirect to a different regional price.",
+          "Cache has been cleared.",
+          "Several affected URLs were checked manually before review.",
+        ],
+      },
     ],
   },
   {

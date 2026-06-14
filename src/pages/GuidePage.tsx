@@ -91,12 +91,13 @@ function GuidePage() {
 
         <nav className="nav">
           <Link to="/">Home</Link>
+          <Link to="/merchant-center-issues">Issues</Link>
           <Link to="/guides">Guides</Link>
           <Link to="/sample-report">Sample report</Link>
         </nav>
 
         <Link className="header-cta" to="/#order">
-          Run free check
+          Request report
         </Link>
       </header>
 
@@ -105,7 +106,9 @@ function GuidePage() {
           <div className="breadcrumbs">
             <Link to="/">Home</Link>
             <span>/</span>
-            <span>Guides</span>
+            <Link to="/guides">Guides</Link>
+            <span>/</span>
+            <span>{guide.issueName}</span>
           </div>
 
           <p className="eyebrow">{guide.issueName}</p>
@@ -115,12 +118,12 @@ function GuidePage() {
           <p>{guide.intro}</p>
 
           <div className="hero-actions">
-            <Link className="btn primary" to="/#order">
+            <Link className="btn primary" to="/#checker">
               Run free preflight
             </Link>
 
-            <Link className="btn secondary" to="/sample-report">
-              View sample report
+            <Link className="btn secondary" to="/#order">
+              Request diagnostic report
             </Link>
           </div>
         </section>
@@ -167,6 +170,28 @@ function GuidePage() {
           </article>
         </section>
 
+        {guide.seoSections && (
+          <section className="article-longform">
+            {guide.seoSections.map((section) => (
+              <article className="longform-section" key={section.title}>
+                <h2>{section.title}</h2>
+
+                {section.paragraphs.map((paragraph, index) => (
+                  <p key={`${section.title}-${index}`}>{paragraph}</p>
+                ))}
+
+                {section.bullets && (
+                  <ul className="step-list">
+                    {section.bullets.map((bullet) => (
+                      <li key={bullet}>{bullet}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </section>
+        )}
+
         <section className="article-cta">
           <div>
             <p className="eyebrow">Need a report?</p>
@@ -181,7 +206,7 @@ function GuidePage() {
           </div>
 
           <Link className="btn primary" to="/#order">
-            See pricing
+            Request diagnostic report
           </Link>
         </section>
 
@@ -195,7 +220,7 @@ function GuidePage() {
                 to={`/guides/${item.slug}`}
                 key={item.slug}
               >
-                <span>Guide</span>
+                <span>{item.issueName}</span>
 
                 <h3>{item.title}</h3>
 
@@ -208,7 +233,12 @@ function GuidePage() {
 
       <footer className="footer">
         <span>Merchant Listing Preflight</span>
-        <span>Diagnostic service. No Google approval guarantee.</span>
+
+        <span className="footer-links">
+          <span>Diagnostic service. No Google approval guarantee.</span>
+          <Link to="/terms">Terms</Link>
+          <Link to="/privacy">Privacy</Link>
+        </span>
       </footer>
     </div>
   );
