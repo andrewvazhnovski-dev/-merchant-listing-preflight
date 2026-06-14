@@ -4,6 +4,7 @@ import GuidePage from "./pages/GuidePage";
 import SampleReportPage from "./pages/SampleReportPage";
 import OrderForm from "./components/OrderForm";
 import HowItWorks from "./components/HowItWorks";
+import TermsPage from "./pages/TermsPage";
 
 type CsvRow = Record<string, string>;
 
@@ -1168,7 +1169,11 @@ function HomePage() {
 
       <footer className="footer">
         <span>Merchant Listing Preflight</span>
-        <span>Diagnostic service. No Google approval guarantee.</span>
+
+        <span className="footer-links">
+          <span>Diagnostic service. No Google approval guarantee.</span>
+          <a href="/terms">Terms</a>
+        </span>
       </footer>
     </div>
   );
@@ -1180,6 +1185,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
       <Route path="/sample-report" element={<SampleReportPage />} />
+      <Route path="/terms" element={<TermsPage />} />
       <Route path="*" element={<HomePage />} />
     </Routes>
   );

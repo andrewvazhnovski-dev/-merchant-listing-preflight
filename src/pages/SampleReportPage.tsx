@@ -155,7 +155,11 @@ function SampleReportPage() {
 
       <footer className="footer">
         <span>Merchant Listing Preflight</span>
-        <span>Diagnostic service. No Google approval guarantee.</span>
+
+        <span className="footer-links">
+          <span>Diagnostic service. No Google approval guarantee.</span>
+          <Link to="/terms">Terms</Link>
+        </span>
       </footer>
     </div>
   );

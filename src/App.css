@@ -1206,3 +1206,20 @@ textarea:focus {
     padding: 20px;
   }
 }
+
+.footer-links {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+}
+
+.footer-links a {
+  color: var(--accent);
+  font-weight: 900;
+}
+
+.footer-links a:hover {
+  text-decoration: underline;
+}
