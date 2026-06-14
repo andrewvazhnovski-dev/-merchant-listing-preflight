@@ -62,6 +62,19 @@ const seoByPath: Record<string, SeoData> = {
   },
 };
 
+function isKnownPath(pathname: string): boolean {
+  if (seoByPath[pathname]) {
+    return true;
+  }
+
+  if (pathname.startsWith("/guides/")) {
+    const slug = pathname.replace("/guides/", "");
+    return Boolean(getGuideBySlug(slug));
+  }
+
+  return false;
+}
+
 function upsertMetaByName(name: string, content: string) {
   let meta = document.querySelector<HTMLMetaElement>(`meta[name="${name}"]`);
 
@@ -135,6 +148,11 @@ function SEOHead() {
     document.title = seo.title;
 
     upsertMetaByName("description", seo.description);
+
+    upsertMetaByName(
+      "robots",
+      isKnownPath(cleanPath) ? "index, follow" : "noindex, follow",
+    );
 
     upsertLink("canonical", canonicalUrl);
 

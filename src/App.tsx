@@ -17,6 +17,7 @@ import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPa
 import GoogleMerchantCenterReviewChecklistPage from "./pages/GoogleMerchantCenterReviewChecklistPage";
 import MerchantCenterDiagnosticReportPage from "./pages/MerchantCenterDiagnosticReportPage";
 import SEOHead from "./components/SEOHead";
+import NotFoundPage from "./pages/NotFoundPage";
 
 type CsvRow = Record<string, string>;
 
@@ -1289,7 +1290,7 @@ function App() {
     <>
       <SEOHead />
       <Routes>
-        <Route path="/" element={<HomePage />} />
+        <Route path="*" element={<NotFoundPage />} />
         <Route
           path="/merchant-center-issues"
           element={<MerchantCenterIssuesPage />}
