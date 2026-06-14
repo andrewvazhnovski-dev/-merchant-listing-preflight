@@ -10,7 +10,8 @@ import TermsPage from "./pages/TermsPage";
 import FAQ from "./components/FAQ";
 import AfterRequest from "./components/AfterRequest";
 import PaymentNote from "./components/PaymentNote";
-import { guidePages } from "./guideData";
+import FeaturedGuides from "./components/FeaturedGuides";
+import FAQSchema from "./components/FAQSchema";
 
 type CsvRow = Record<string, string>;
 
@@ -344,7 +345,7 @@ function analyzeCsvText(
 
   const warnings: string[] = [];
 
-  if (!detectedColumns.issue && !detedetected(detectedColumns.status)) {
+  if (!detectedColumns.issue && !detectedColumns.status) {
     warnings.push(
       "No clear Issue column was detected. The checker grouped products by status instead.",
     );
@@ -384,10 +385,6 @@ function analyzeCsvText(
     warnings,
     topUrls,
   };
-}
-
-function detedetected(value: unknown): boolean {
-  return Boolean(value);
 }
 
 function isRecord(value: unknown): value is JsonMap {
@@ -645,546 +642,533 @@ function HomePage() {
   }
 
   return (
-    <div className="page">
-      <header className="header">
-        <a
-          className="logo"
-          href="#top"
-          aria-label="Merchant Listing Preflight home"
-        >
-          <span className="logo-mark">ML</span>
-          <span>
-            Merchant Listing
-            <strong>Preflight</strong>
-          </span>
-        </a>
-
-        <nav className="nav">
-          <a href="#checker">Checker</a>
-          <a href="#how-it-works">How it works</a>
-          <a href="#pricing">Pricing</a>
-          <a href="#faq">FAQ</a>
-          <a href="#after-request">After request</a>
-          <a href="#sample">Sample report</a>
-          <a href="/guides">Guides</a>
-        </nav>
-
-        <a className="header-cta" href="#checker">
-          Run free check
-        </a>
-      </header>
-
-      <main id="top">
-        <section className="hero section">
-          <div className="hero-content">
-            <div className="eyebrow">
-              For Google Merchant Center and merchant listing issues
-            </div>
-
-            <h1>
-              Find what is blocking your products before you request another
-              review.
-            </h1>
-
-            <p className="hero-text">
-              Upload your affected-products CSV or paste Product / Offer
-              structured data. Get a fast preflight summary for price mismatch,
-              availability mismatch, domain issues, landing page problems and
-              merchant listing readiness.
-            </p>
-
-            <div className="hero-actions">
-              <a className="btn primary" href="#checker">
-                Run free preflight
-              </a>
-              <a className="btn secondary" href="#sample">
-                See sample report
-              </a>
-            </div>
-
-            <div className="trust-row">
-              <span>No calls</span>
-              <span>No account login required</span>
-              <span>Fixed-price reports</span>
-            </div>
-          </div>
-
-          <div className="hero-card">
-            <div className="terminal-top">
-              <span />
-              <span />
-              <span />
-            </div>
-
-            <div className="terminal-body">
-              <p className="muted">Detected issue families</p>
-
-              {issueFamilies.map((issue, index) => (
-                <div className="terminal-line" key={issue}>
-                  <span className="terminal-index">0{index + 1}</span>
-                  <span>{issue}</span>
-                  <strong>{index < 3 ? "High" : "Medium"}</strong>
-                </div>
-              ))}
-
-              <div className="summary-box">
-                <span>Suggested action</span>
-                <strong>Fix feed ↔ landing page ↔ schema mismatch first</strong>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section className="section problem-grid">
-          <div>
-            <div className="eyebrow">Why this matters</div>
-            <h2>
-              Merchant issues are not abstract SEO warnings. They affect product
-              visibility.
-            </h2>
-          </div>
-
-          <div className="cards three">
-            <article className="card">
-              <h3>Price mismatch</h3>
-              <p>
-                Feed price, page price, sale price and structured data can
-                disagree.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3>Availability mismatch</h3>
-              <p>
-                Stock status can differ between the website, feed, crawl and
-                schema.
-              </p>
-            </article>
-
-            <article className="card">
-              <h3>Domain / landing page issues</h3>
-              <p>
-                Wrong URLs, redirects, canonicals and regional pages can break
-                trust.
-              </p>
-            </article>
-          </div>
-        </section>
-
-        <section id="checker" className="section checker-section">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">Free checker</div>
-              <h2>Run a quick preflight check</h2>
-            </div>
-
-            <p>
-              Free output gives a summary. Paid report gives root cause, fix
-              order, evidence checklist and review preparation.
-            </p>
-          </div>
-
-          <div className="checker">
-            <div className="tabs">
-              <button
-                className={activeTab === "csv" ? "active" : ""}
-                onClick={() => setActiveTab("csv")}
-              >
-                CSV upload
-              </button>
-              <button
-                className={activeTab === "schema" ? "active" : ""}
-                onClick={() => setActiveTab("schema")}
-              >
-                HTML / JSON-LD
-              </button>
-            </div>
-
-            {activeTab === "csv" && (
-              <div className="checker-panel">
-                <div className="upload-box">
-                  <h3>Upload affected-products CSV</h3>
-                  <p>
-                    Use export from Merchant Center “Needs attention” or Issue
-                    Details Page. This runs locally in your browser.
-                  </p>
-
-                  <label className="field-label" htmlFor="merchant-csv-upload">
-                    Affected-products CSV file
-                  </label>
-
-                  <input
-                    id="merchant-csv-upload"
-                    type="file"
-                    accept=".csv,text/csv"
-                    onChange={handleCsvUpload}
-                    title="Upload affected-products CSV file"
-                    aria-label="Upload affected-products CSV file"
-                  />
-                  <button className="btn secondary small" onClick={loadDemoCsv}>
-                    Load demo CSV
-                  </button>
-                </div>
-
-                {csvAnalysis && (
-                  <div className="result-box">
-                    <div className="result-header">
-                      <div>
-                        <p className="muted">File</p>
-                        <h3>{csvAnalysis.fileName}</h3>
-                      </div>
-
-                      <div className="score">
-                        <span>{totalCriticalIssues}</span>
-                        <small>high-priority rows</small>
-                      </div>
-                    </div>
-
-                    <div className="stats-grid">
-                      <div>
-                        <span>{csvAnalysis.rowsCount}</span>
-                        <small>products</small>
-                      </div>
-                      <div>
-                        <span>{csvAnalysis.issueGroups.length}</span>
-                        <small>issue groups</small>
-                      </div>
-                      <div>
-                        <span>{csvAnalysis.headers.length}</span>
-                        <small>columns</small>
-                      </div>
-                    </div>
-
-                    <h4>Detected columns</h4>
-                    <div className="chips">
-                      {Object.entries(csvAnalysis.detectedColumns).map(
-                        ([key, value]) => (
-                          <span
-                            className={value ? "chip good" : "chip"}
-                            key={key}
-                          >
-                            {key}: {value || "not found"}
-                          </span>
-                        ),
-                      )}
-                    </div>
-
-                    {csvAnalysis.warnings.length > 0 && (
-                      <div className="warning-box">
-                        {csvAnalysis.warnings.map((warning) => (
-                          <p key={warning}>{warning}</p>
-                        ))}
-                      </div>
-                    )}
-
-                    <h4>Issue groups</h4>
-                    <div className="issue-list">
-                      {csvAnalysis.issueGroups.map((group) => (
-                        <article className="issue-item" key={group.issue}>
-                          <div>
-                            <strong>{group.issue}</strong>
-                            <small>{group.count} affected product rows</small>
-                          </div>
-                          <span
-                            className={`priority ${group.priority.toLowerCase()}`}
-                          >
-                            {group.priority}
-                          </span>
-                        </article>
-                      ))}
-                    </div>
-
-                    {csvAnalysis.topUrls.length > 0 && (
-                      <>
-                        <h4>Sample product URLs</h4>
-                        <ul className="url-list">
-                          {csvAnalysis.topUrls.map((url) => (
-                            <li key={url}>{url}</li>
-                          ))}
-                        </ul>
-                      </>
-                    )}
-
-                    <div className="upgrade-box">
-                      <div>
-                        <strong>Need the full report?</strong>
-                        <p>
-                          Get root cause, fix order, evidence notes and review
-                          checklist.
-                        </p>
-                      </div>
-                      <a className="btn primary small" href="#pricing">
-                        View paid reports
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-
-            {activeTab === "schema" && (
-              <div className="checker-panel">
-                <div className="upload-box">
-                  <h3>Paste product page HTML or JSON-LD</h3>
-                  <p>
-                    Paste the source code of a product page, or just the Product
-                    / Offer JSON-LD block. Direct URL fetch will be added with
-                    backend proxy later.
-                  </p>
-
-                  <label className="field-label" htmlFor="schema-input">
-                    Product page HTML or JSON-LD
-                  </label>
-
-                  <textarea
-                    id="schema-input"
-                    value={schemaInput}
-                    onChange={(event) => setSchemaInput(event.target.value)}
-                    rows={14}
-                    spellCheck={false}
-                    title="Paste product page HTML or JSON-LD"
-                    aria-label="Paste product page HTML or JSON-LD"
-                    placeholder="Paste product page HTML source or Product / Offer JSON-LD here..."
-                  />
-
-                  <button
-                    className="btn primary small"
-                    onClick={runSchemaCheck}
-                  >
-                    Analyze schema
-                  </button>
-                </div>
-
-                {schemaAnalysis && (
-                  <div className="result-box">
-                    <div className="result-header">
-                      <div>
-                        <p className="muted">Schema summary</p>
-                        <h3>
-                          {schemaAnalysis.blocks} JSON-LD block(s) checked
-                        </h3>
-                      </div>
-
-                      <div className="score">
-                        <span>
-                          {
-                            schemaAnalysis.checks.filter(
-                              (check) => check.status === "fail",
-                            ).length
-                          }
-                        </span>
-                        <small>failed checks</small>
-                      </div>
-                    </div>
-
-                    {schemaAnalysis.errors.length > 0 && (
-                      <div className="warning-box">
-                        {schemaAnalysis.errors.map((error) => (
-                          <p key={error}>{error}</p>
-                        ))}
-                      </div>
-                    )}
-
-                    <div className="check-list">
-                      {schemaAnalysis.checks.map((check) => (
-                        <article
-                          className={`check ${check.status}`}
-                          key={check.label}
-                        >
-                          <div>
-                            <strong>{check.label}</strong>
-                            <p>{check.detail}</p>
-                          </div>
-                          <span>{check.status}</span>
-                        </article>
-                      ))}
-                    </div>
-
-                    <div className="upgrade-box">
-                      <div>
-                        <strong>This is only the free preflight.</strong>
-                        <p>
-                          Full report compares feed data, page content, schema,
-                          canonical and review readiness.
-                        </p>
-                      </div>
-                      <a className="btn primary small" href="#pricing">
-                        Get full diagnosis
-                      </a>
-                    </div>
-                  </div>
-                )}
-              </div>
-            )}
-          </div>
-        </section>
-
-        <section id="how-it-works" className="section">
-          <HowItWorks />
-        </section>
-
-        <section id="pricing" className="section">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">Pricing</div>
-              <h2>Fixed-price diagnostic reports</h2>
-            </div>
-
-            <p>
-              No promise of Google approval. The deliverable is diagnosis, fix
-              order and review preparation.
-            </p>
-          </div>
-
-          <div className="cards three">
-            {pricing.map((plan) => (
-              <article className="price-card" key={plan.name}>
-                <h3>{plan.name}</h3>
-                <div className="price">{plan.price}</div>
-                <p>{plan.description}</p>
-
-                <ul>
-                  {plan.items.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-
-                <a className="btn primary full" href="#order">
-                  Request {plan.name}
-                </a>
-              </article>
-            ))}
-          </div>
-        </section>
-
-        <section id="faq" className="section">
-          <FAQ />
-        </section>
-
-        <section id="after-request" className="section">
-          <AfterRequest />
-        </section>
-
-        <section id="payment-note" className="section">
-          <PaymentNote />
-        </section>
-
-        <section id="order" className="section">
-          <OrderForm />
-        </section>
-
-        <section id="sample" className="section sample-section">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">Sample report</div>
-              <h2>What the client receives</h2>
-            </div>
-          </div>
-
-          <div className="report-preview">
-            <div className="report-sidebar">
-              <span>01 Executive summary</span>
-              <span>02 Detected issue family</span>
-              <span>03 Affected products</span>
-              <span>04 Likely root cause</span>
-              <span>05 Evidence</span>
-              <span>06 Priority fixes</span>
-              <span>07 Review preparation</span>
-              <span>08 Prevention checklist</span>
-            </div>
-
-            <div className="report-page">
-              <h3>Merchant Listing Diagnostic Report</h3>
-              <p className="muted">Demo case: Mismatched product price</p>
-
-              <div className="report-block danger">
-                <strong>Priority 1</strong>
-                <p>
-                  Feed price and landing page price appear inconsistent for 14
-                  affected products. Fix product data first, then verify page
-                  markup.
-                </p>
-              </div>
-
-              <div className="report-block">
-                <strong>Evidence</strong>
-                <p>
-                  CSV shows USD price while page-level structured data exposes a
-                  different value. Canonical points to the same product URL, so
-                  the likely conflict is price source synchronization.
-                </p>
-              </div>
-
-              <div className="report-block">
-                <strong>Recommended fix order</strong>
-                <ol>
-                  <li>Update feed price and sale price fields.</li>
-                  <li>Verify Product / Offer structured data.</li>
-                  <li>Check visible page price after cache refresh.</li>
-                  <li>
-                    Resubmit product data and request review only after
-                    consistency check.
-                  </li>
-                </ol>
-              </div>
-            </div>
-          </div>
-        </section>
-
-        <section id="guides" className="section">
-          <div className="section-heading">
-            <div>
-              <div className="eyebrow">SEO content plan</div>
-              <h2>Issue pages we will publish next</h2>
-            </div>
-
-            <p>
-              Each guide targets a real problem name and sends users into the
-              checker.
-            </p>
-          </div>
-
-          <div className="guide-grid">
-            {guidePages.map((guide) => (
-              <a
-                className="guide-card"
-                href={`/guides/${guide.slug}`}
-                key={guide.slug}
-              >
-                <span>{guide.issueName}</span>
-                <h3>{guide.title}</h3>
-                <p>{guide.metaDescription}</p>
-              </a>
-            ))}
-          </div>
-        </section>
-
-        <section className="section final-cta">
-          <div>
-            <div className="eyebrow">Next step</div>
-            <h2>Ready for the first real launch version.</h2>
-            <p>
-              Replace the placeholder email, connect a payment link later, then
-              publish the first public MVP on a free host.
-            </p>
-          </div>
-
-          <a className="btn primary" href="#checker">
-            Test the checker
+    <>
+      <FAQSchema />
+      <div className="page">
+        <header className="header">
+          <a
+            className="logo"
+            href="#top"
+            aria-label="Merchant Listing Preflight home"
+          >
+            <span className="logo-mark">ML</span>
+            <span>
+              Merchant Listing
+              <strong>Preflight</strong>
+            </span>
           </a>
-        </section>
-      </main>
 
-      <footer className="footer">
-        <span>Merchant Listing Preflight</span>
+          <nav className="nav">
+            <a href="#checker">Checker</a>
+            <a href="#how-it-works">How it works</a>
+            <a href="#pricing">Pricing</a>
+            <a href="#faq">FAQ</a>
+            <a href="#after-request">After request</a>
+            <a href="#sample">Sample report</a>
+            <a href="/guides">Guides</a>
+          </nav>
 
-        <span className="footer-links">
-          <span>Diagnostic service. No Google approval guarantee.</span>
-          <a href="/terms">Terms</a>
-          <a href="/privacy">Privacy</a>
-        </span>
-      </footer>
-    </div>
+          <a className="header-cta" href="#checker">
+            Run free check
+          </a>
+        </header>
+
+        <main id="top">
+          <section className="hero section">
+            <div className="hero-content">
+              <div className="eyebrow">
+                For Google Merchant Center and merchant listing issues
+              </div>
+
+              <h1>
+                Find what is blocking your products before you request another
+                review.
+              </h1>
+
+              <p className="hero-text">
+                Upload your affected-products CSV or paste Product / Offer
+                structured data. Get a fast preflight summary for price
+                mismatch, availability mismatch, domain issues, landing page
+                problems and merchant listing readiness.
+              </p>
+
+              <div className="hero-actions">
+                <a className="btn primary" href="#checker">
+                  Run free preflight
+                </a>
+                <a className="btn secondary" href="#sample">
+                  See sample report
+                </a>
+              </div>
+
+              <div className="trust-row">
+                <span>No calls</span>
+                <span>No account login required</span>
+                <span>Fixed-price reports</span>
+              </div>
+            </div>
+
+            <div className="hero-card">
+              <div className="terminal-top">
+                <span />
+                <span />
+                <span />
+              </div>
+
+              <div className="terminal-body">
+                <p className="muted">Detected issue families</p>
+
+                {issueFamilies.map((issue, index) => (
+                  <div className="terminal-line" key={issue}>
+                    <span className="terminal-index">0{index + 1}</span>
+                    <span>{issue}</span>
+                    <strong>{index < 3 ? "High" : "Medium"}</strong>
+                  </div>
+                ))}
+
+                <div className="summary-box">
+                  <span>Suggested action</span>
+                  <strong>
+                    Fix feed ↔ landing page ↔ schema mismatch first
+                  </strong>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section className="section problem-grid">
+            <div>
+              <div className="eyebrow">Why this matters</div>
+              <h2>
+                Merchant issues are not abstract SEO warnings. They affect
+                product visibility.
+              </h2>
+            </div>
+
+            <div className="cards three">
+              <article className="card">
+                <h3>Price mismatch</h3>
+                <p>
+                  Feed price, page price, sale price and structured data can
+                  disagree.
+                </p>
+              </article>
+
+              <article className="card">
+                <h3>Availability mismatch</h3>
+                <p>
+                  Stock status can differ between the website, feed, crawl and
+                  schema.
+                </p>
+              </article>
+
+              <article className="card">
+                <h3>Domain / landing page issues</h3>
+                <p>
+                  Wrong URLs, redirects, canonicals and regional pages can break
+                  trust.
+                </p>
+              </article>
+            </div>
+          </section>
+
+          <section id="checker" className="section checker-section">
+            <div className="section-heading">
+              <div>
+                <div className="eyebrow">Free checker</div>
+                <h2>Run a quick preflight check</h2>
+              </div>
+
+              <p>
+                Free output gives a summary. Paid report gives root cause, fix
+                order, evidence checklist and review preparation.
+              </p>
+            </div>
+
+            <div className="checker">
+              <div className="tabs">
+                <button
+                  className={activeTab === "csv" ? "active" : ""}
+                  onClick={() => setActiveTab("csv")}
+                >
+                  CSV upload
+                </button>
+                <button
+                  className={activeTab === "schema" ? "active" : ""}
+                  onClick={() => setActiveTab("schema")}
+                >
+                  HTML / JSON-LD
+                </button>
+              </div>
+
+              {activeTab === "csv" && (
+                <div className="checker-panel">
+                  <div className="upload-box">
+                    <h3>Upload affected-products CSV</h3>
+                    <p>
+                      Use export from Merchant Center “Needs attention” or Issue
+                      Details Page. This runs locally in your browser.
+                    </p>
+
+                    <label
+                      className="field-label"
+                      htmlFor="merchant-csv-upload"
+                    >
+                      Affected-products CSV file
+                    </label>
+
+                    <input
+                      id="merchant-csv-upload"
+                      type="file"
+                      accept=".csv,text/csv"
+                      onChange={handleCsvUpload}
+                      title="Upload affected-products CSV file"
+                      aria-label="Upload affected-products CSV file"
+                    />
+                    <button
+                      className="btn secondary small"
+                      onClick={loadDemoCsv}
+                    >
+                      Load demo CSV
+                    </button>
+                  </div>
+
+                  {csvAnalysis && (
+                    <div className="result-box">
+                      <div className="result-header">
+                        <div>
+                          <p className="muted">File</p>
+                          <h3>{csvAnalysis.fileName}</h3>
+                        </div>
+
+                        <div className="score">
+                          <span>{totalCriticalIssues}</span>
+                          <small>high-priority rows</small>
+                        </div>
+                      </div>
+
+                      <div className="stats-grid">
+                        <div>
+                          <span>{csvAnalysis.rowsCount}</span>
+                          <small>products</small>
+                        </div>
+                        <div>
+                          <span>{csvAnalysis.issueGroups.length}</span>
+                          <small>issue groups</small>
+                        </div>
+                        <div>
+                          <span>{csvAnalysis.headers.length}</span>
+                          <small>columns</small>
+                        </div>
+                      </div>
+
+                      <h4>Detected columns</h4>
+                      <div className="chips">
+                        {Object.entries(csvAnalysis.detectedColumns).map(
+                          ([key, value]) => (
+                            <span
+                              className={value ? "chip good" : "chip"}
+                              key={key}
+                            >
+                              {key}: {value || "not found"}
+                            </span>
+                          ),
+                        )}
+                      </div>
+
+                      {csvAnalysis.warnings.length > 0 && (
+                        <div className="warning-box">
+                          {csvAnalysis.warnings.map((warning) => (
+                            <p key={warning}>{warning}</p>
+                          ))}
+                        </div>
+                      )}
+
+                      <h4>Issue groups</h4>
+                      <div className="issue-list">
+                        {csvAnalysis.issueGroups.map((group) => (
+                          <article className="issue-item" key={group.issue}>
+                            <div>
+                              <strong>{group.issue}</strong>
+                              <small>{group.count} affected product rows</small>
+                            </div>
+                            <span
+                              className={`priority ${group.priority.toLowerCase()}`}
+                            >
+                              {group.priority}
+                            </span>
+                          </article>
+                        ))}
+                      </div>
+
+                      {csvAnalysis.topUrls.length > 0 && (
+                        <>
+                          <h4>Sample product URLs</h4>
+                          <ul className="url-list">
+                            {csvAnalysis.topUrls.map((url) => (
+                              <li key={url}>{url}</li>
+                            ))}
+                          </ul>
+                        </>
+                      )}
+
+                      <div className="upgrade-box">
+                        <div>
+                          <strong>Need the full report?</strong>
+                          <p>
+                            Get root cause, fix order, evidence notes and review
+                            checklist.
+                          </p>
+                        </div>
+                        <a className="btn primary small" href="#pricing">
+                          View paid reports
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {activeTab === "schema" && (
+                <div className="checker-panel">
+                  <div className="upload-box">
+                    <h3>Paste product page HTML or JSON-LD</h3>
+                    <p>
+                      Paste the source code of a product page, or just the
+                      Product / Offer JSON-LD block. Direct URL fetch will be
+                      added with backend proxy later.
+                    </p>
+
+                    <label className="field-label" htmlFor="schema-input">
+                      Product page HTML or JSON-LD
+                    </label>
+
+                    <textarea
+                      id="schema-input"
+                      value={schemaInput}
+                      onChange={(event) => setSchemaInput(event.target.value)}
+                      rows={14}
+                      spellCheck={false}
+                      title="Paste product page HTML or JSON-LD"
+                      aria-label="Paste product page HTML or JSON-LD"
+                      placeholder="Paste product page HTML source or Product / Offer JSON-LD here..."
+                    />
+
+                    <button
+                      className="btn primary small"
+                      onClick={runSchemaCheck}
+                    >
+                      Analyze schema
+                    </button>
+                  </div>
+
+                  {schemaAnalysis && (
+                    <div className="result-box">
+                      <div className="result-header">
+                        <div>
+                          <p className="muted">Schema summary</p>
+                          <h3>
+                            {schemaAnalysis.blocks} JSON-LD block(s) checked
+                          </h3>
+                        </div>
+
+                        <div className="score">
+                          <span>
+                            {
+                              schemaAnalysis.checks.filter(
+                                (check) => check.status === "fail",
+                              ).length
+                            }
+                          </span>
+                          <small>failed checks</small>
+                        </div>
+                      </div>
+
+                      {schemaAnalysis.errors.length > 0 && (
+                        <div className="warning-box">
+                          {schemaAnalysis.errors.map((error) => (
+                            <p key={error}>{error}</p>
+                          ))}
+                        </div>
+                      )}
+
+                      <div className="check-list">
+                        {schemaAnalysis.checks.map((check) => (
+                          <article
+                            className={`check ${check.status}`}
+                            key={check.label}
+                          >
+                            <div>
+                              <strong>{check.label}</strong>
+                              <p>{check.detail}</p>
+                            </div>
+                            <span>{check.status}</span>
+                          </article>
+                        ))}
+                      </div>
+
+                      <div className="upgrade-box">
+                        <div>
+                          <strong>This is only the free preflight.</strong>
+                          <p>
+                            Full report compares feed data, page content,
+                            schema, canonical and review readiness.
+                          </p>
+                        </div>
+                        <a className="btn primary small" href="#pricing">
+                          Get full diagnosis
+                        </a>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+            </div>
+          </section>
+
+          <section id="how-it-works" className="section">
+            <HowItWorks />
+          </section>
+
+          <section id="pricing" className="section">
+            <div className="section-heading">
+              <div>
+                <div className="eyebrow">Pricing</div>
+                <h2>Fixed-price diagnostic reports</h2>
+              </div>
+
+              <p>
+                No promise of Google approval. The deliverable is diagnosis, fix
+                order and review preparation.
+              </p>
+            </div>
+
+            <div className="cards three">
+              {pricing.map((plan) => (
+                <article className="price-card" key={plan.name}>
+                  <h3>{plan.name}</h3>
+                  <div className="price">{plan.price}</div>
+                  <p>{plan.description}</p>
+
+                  <ul>
+                    {plan.items.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+
+                  <a className="btn primary full" href="#order">
+                    Request {plan.name}
+                  </a>
+                </article>
+              ))}
+            </div>
+          </section>
+
+          <section id="faq" className="section">
+            <FAQ />
+          </section>
+
+          <section id="after-request" className="section">
+            <AfterRequest />
+          </section>
+
+          <section id="payment-note" className="section">
+            <PaymentNote />
+          </section>
+
+          <section id="order" className="section">
+            <OrderForm />
+          </section>
+
+          <section id="sample" className="section sample-section">
+            <div className="section-heading">
+              <div>
+                <div className="eyebrow">Sample report</div>
+                <h2>What the client receives</h2>
+              </div>
+            </div>
+
+            <div className="report-preview">
+              <div className="report-sidebar">
+                <span>01 Executive summary</span>
+                <span>02 Detected issue family</span>
+                <span>03 Affected products</span>
+                <span>04 Likely root cause</span>
+                <span>05 Evidence</span>
+                <span>06 Priority fixes</span>
+                <span>07 Review preparation</span>
+                <span>08 Prevention checklist</span>
+              </div>
+
+              <div className="report-page">
+                <h3>Merchant Listing Diagnostic Report</h3>
+                <p className="muted">Demo case: Mismatched product price</p>
+
+                <div className="report-block danger">
+                  <strong>Priority 1</strong>
+                  <p>
+                    Feed price and landing page price appear inconsistent for 14
+                    affected products. Fix product data first, then verify page
+                    markup.
+                  </p>
+                </div>
+
+                <div className="report-block">
+                  <strong>Evidence</strong>
+                  <p>
+                    CSV shows USD price while page-level structured data exposes
+                    a different value. Canonical points to the same product URL,
+                    so the likely conflict is price source synchronization.
+                  </p>
+                </div>
+
+                <div className="report-block">
+                  <strong>Recommended fix order</strong>
+                  <ol>
+                    <li>Update feed price and sale price fields.</li>
+                    <li>Verify Product / Offer structured data.</li>
+                    <li>Check visible page price after cache refresh.</li>
+                    <li>
+                      Resubmit product data and request review only after
+                      consistency check.
+                    </li>
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section id="guides" className="section">
+            <FeaturedGuides />
+          </section>
+
+          <section className="section final-cta">
+            <div>
+              <div className="eyebrow">Next step</div>
+              <h2>Ready for the first real launch version.</h2>
+              <p>
+                Replace the placeholder email, connect a payment link later,
+                then publish the first public MVP on a free host.
+              </p>
+            </div>
+
+            <a className="btn primary" href="#checker">
+              Test the checker
+            </a>
+          </section>
+        </main>
+
+        <footer className="footer">
+          <span>Merchant Listing Preflight</span>
+
+          <span className="footer-links">
+            <span>Diagnostic service. No Google approval guarantee.</span>
+            <a href="/terms">Terms</a>
+            <a href="/privacy">Privacy</a>
+          </span>
+        </footer>
+      </div>
+    </>
   );
 }
 

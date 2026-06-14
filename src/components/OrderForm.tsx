@@ -20,6 +20,7 @@ function OrderForm() {
   const [targetCountry, setTargetCountry] = useState("");
   const [currency, setCurrency] = useState("");
   const [message, setMessage] = useState("");
+  const [copyStatus, setCopyStatus] = useState("");
 
   const mailtoLink = useMemo(() => {
     const subject = encodeURIComponent(
@@ -57,6 +58,19 @@ Thanks.`);
 
     return `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
   }, [storeUrl, clientEmail, issueType, targetCountry, currency, message]);
+
+  const handleCopyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(CONTACT_EMAIL);
+      setCopyStatus("Email copied.");
+    } catch {
+      setCopyStatus(`Copy manually: ${CONTACT_EMAIL}`);
+    }
+
+    window.setTimeout(() => {
+      setCopyStatus("");
+    }, 2500);
+  };
 
   return (
     <div className="order-form-card">
@@ -185,6 +199,26 @@ Thanks.`);
           <a className="btn primary full" href={mailtoLink}>
             Request diagnostic report
           </a>
+
+          <div className="email-fallback">
+            <p>
+              If your email app does not open, send your request directly to:
+            </p>
+
+            <div className="email-copy-row">
+              <code>{CONTACT_EMAIL}</code>
+
+              <button
+                className="copy-email-btn"
+                type="button"
+                onClick={handleCopyEmail}
+              >
+                Copy email
+              </button>
+            </div>
+
+            {copyStatus && <span className="copy-status">{copyStatus}</span>}
+          </div>
 
           <p className="form-note">
             This opens your email app with a prepared message. Attach the CSV
