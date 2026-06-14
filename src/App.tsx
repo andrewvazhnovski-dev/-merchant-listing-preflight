@@ -6,6 +6,7 @@ import OrderForm from "./components/OrderForm";
 import HowItWorks from "./components/HowItWorks";
 import TermsPage from "./pages/TermsPage";
 import FAQ from "./components/FAQ";
+import AfterRequest from "./components/AfterRequest";
 
 type CsvRow = Record<string, string>;
 
@@ -668,6 +669,7 @@ function HomePage() {
           <a href="#how-it-works">How it works</a>
           <a href="#pricing">Pricing</a>
           <a href="#faq">FAQ</a>
+          <a href="#after-request">After request</a>
           <a href="#sample">Sample report</a>
           <a href="#guides">Guides</a>
         </nav>
@@ -1062,6 +1064,10 @@ function HomePage() {
 
         <section id="faq" className="section">
           <FAQ />
+        </section>
+
+        <section id="after-request" className="section">
+          <AfterRequest />
         </section>
 
         <section id="order" className="section">
