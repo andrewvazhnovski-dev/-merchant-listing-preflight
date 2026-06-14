@@ -466,6 +466,117 @@ export const guidePages: GuidePageData[] = [
       "Make regional pages consistent.",
       "Recheck affected URLs before review.",
     ],
+    seoSections: [
+      {
+        title: "What different product landing page means",
+        paragraphs: [
+          "The different product landing page issue means Google could not reliably match the product submitted in your feed with the product shown on the final landing page.",
+          "This usually happens when the feed URL opens the wrong product, redirects to a category page, changes by country or device, or shows product content that does not match the submitted item.",
+        ],
+      },
+      {
+        title: "Common causes of different landing page issues",
+        paragraphs: [
+          "Most different product landing page problems are caused by incorrect feed links, redirect rules, variant handling, canonical conflicts or regional page changes.",
+          "Google expects the landing page to clearly show the same product that was submitted in the feed. If the feed says one product but the URL displays another, the product can be disapproved or limited.",
+        ],
+        bullets: [
+          "Feed URL points to a category page instead of a product page.",
+          "Product URL redirects to another product.",
+          "Variant URL redirects to the parent product.",
+          "The landing page changes by country, language or device.",
+          "Canonical URL points to another product.",
+          "Product title, image or price does not match the feed item.",
+          "Unavailable products redirect to collections or homepage.",
+        ],
+      },
+      {
+        title: "Feed URL vs final product page",
+        paragraphs: [
+          "Start by opening the exact affected product URLs from the affected-products CSV. Check whether each URL lands on the same product that was submitted in the feed.",
+          "Do not only test the URL from your store admin. Test the public URL that Google receives in the feed and follow the final redirected destination.",
+        ],
+        bullets: [
+          "Open the affected product URL from the CSV.",
+          "Check the final URL after redirects.",
+          "Confirm the product title matches the feed title.",
+          "Confirm the product image matches the feed image.",
+          "Confirm the visible price and availability match the submitted product.",
+        ],
+      },
+      {
+        title: "Redirects to category, homepage or another product",
+        paragraphs: [
+          "Redirecting unavailable or old products to a category page can create landing page mismatch problems. Google may expect a specific product, but the final page shows a collection, homepage or different item.",
+          "If a product is unavailable, it is usually safer to keep a clear product page with accurate availability instead of silently redirecting to a different page.",
+        ],
+        bullets: [
+          "Check whether old product URLs redirect.",
+          "Avoid redirecting product URLs to homepage.",
+          "Avoid redirecting product URLs to unrelated products.",
+          "Avoid sending category URLs as product landing pages.",
+          "Keep the landing page focused on the submitted product.",
+        ],
+      },
+      {
+        title: "Variant landing page problems",
+        paragraphs: [
+          "Variant handling can create mismatch issues when the feed submits a specific variant but the landing page opens a generic parent product or a different default variant.",
+          "If the submitted product ID represents a size, color or material variant, the landing page should make that variant easy to identify and should not show a conflicting default option.",
+        ],
+        bullets: [
+          "Check whether the feed submits parent products or variants.",
+          "Confirm the correct variant opens on the landing page.",
+          "Check size, color, material and product option selection.",
+          "Make sure variant price and availability match the feed.",
+          "Avoid defaulting to a different variant than the submitted item.",
+        ],
+      },
+      {
+        title: "Canonical and duplicate product conflicts",
+        paragraphs: [
+          "Canonical tags can create conflicting signals if the submitted product page points to another product, another variant or a different regional URL.",
+          "For Merchant Center troubleshooting, the canonical URL should support the same final product experience rather than contradicting the feed landing page.",
+        ],
+        bullets: [
+          "Inspect the canonical URL on affected product pages.",
+          "Check whether canonical points to a different product.",
+          "Check whether canonical points to a different variant.",
+          "Check whether canonical points to another country version.",
+          "Keep canonical logic consistent with the feed URL strategy.",
+        ],
+      },
+      {
+        title: "Regional and device-based landing page changes",
+        paragraphs: [
+          "Some stores show different landing page content depending on country, language, device or visitor location. This can cause Google to see a different product than the one you tested manually.",
+          "If your feed targets a specific country, the final landing page should reliably show the correct product for that target country experience.",
+        ],
+        bullets: [
+          "Check whether the page redirects by country.",
+          "Check whether mobile and desktop show the same product.",
+          "Check whether language selection changes the product URL.",
+          "Check whether target country affects price, availability or product content.",
+          "Check hreflang and regional URL setup.",
+        ],
+      },
+      {
+        title: "What to fix before requesting another review",
+        paragraphs: [
+          "Before requesting another review, verify that the feed URL, final URL, canonical URL and visible landing page content all point to the same product.",
+          "Test several affected products manually and document what changed. This reduces the risk of another review rejection caused by hidden redirects or inconsistent product pages.",
+        ],
+        bullets: [
+          "Feed URL opens the correct product page.",
+          "Final URL does not redirect to a different product.",
+          "Product title, image, price and availability match the feed.",
+          "Canonical URL does not contradict the product page.",
+          "Variant selection matches the submitted product ID.",
+          "Regional redirects do not change the product unexpectedly.",
+          "Several affected URLs were checked manually before review.",
+        ],
+      },
+    ],
   },
   {
     slug: "pending-website-check-readiness",
