@@ -12,6 +12,7 @@ import AfterRequest from "./components/AfterRequest";
 import PaymentNote from "./components/PaymentNote";
 import FeaturedGuides from "./components/FeaturedGuides";
 import FAQSchema from "./components/FAQSchema";
+import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
 
 type CsvRow = Record<string, string>;
 
@@ -660,11 +661,12 @@ function HomePage() {
 
           <nav className="nav">
             <a href="#checker">Checker</a>
+            <a href="/merchant-center-issues">Issues</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
             <a href="#after-request">After request</a>
-            <a href="#sample">Sample report</a>
+            <a href="/sample-report">Sample report</a>
             <a href="/guides">Guides</a>
           </nav>
 
@@ -769,6 +771,30 @@ function HomePage() {
                   trust.
                 </p>
               </article>
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="issue-hub-promo">
+              <div>
+                <div className="eyebrow">Merchant Center issue hub</div>
+
+                <h2>
+                  Not sure which Merchant Center issue is blocking your
+                  products?
+                </h2>
+
+                <p>
+                  Start with the issue hub. It groups common problems such as
+                  mismatched price, mismatched availability, mismatched domains,
+                  different landing pages, pending website checks and Product /
+                  Offer structured data.
+                </p>
+              </div>
+
+              <a className="btn secondary" href="/merchant-center-issues">
+                Open issue checklist
+              </a>
             </div>
           </section>
 
@@ -1178,6 +1204,10 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route
+        path="/merchant-center-issues"
+        element={<MerchantCenterIssuesPage />}
+      />
       <Route path="/guides" element={<GuidesIndexPage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
       <Route path="/sample-report" element={<SampleReportPage />} />
