@@ -91,6 +91,7 @@ function GuidePage() {
 
         <nav className="nav">
           <Link to="/">Home</Link>
+          <Link to="/guides">Guides</Link>
           <Link to="/sample-report">Sample report</Link>
         </nav>
 

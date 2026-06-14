@@ -10,6 +10,7 @@ import TermsPage from "./pages/TermsPage";
 import FAQ from "./components/FAQ";
 import AfterRequest from "./components/AfterRequest";
 import PaymentNote from "./components/PaymentNote";
+import { guidePages } from "./guideData";
 
 type CsvRow = Record<string, string>;
 
@@ -123,15 +124,6 @@ const pricing = [
       "Appeal readiness notes",
     ],
   },
-];
-
-const guides = [
-  "How to fix Mismatched product price",
-  "How to fix Mismatched product availability",
-  "How to fix Mismatched domains",
-  "Different product landing page checklist",
-  "Pending website check readiness",
-  "Product / Offer structured data checklist",
 ];
 
 function normalizeText(value: string): string {
@@ -674,7 +666,7 @@ function HomePage() {
           <a href="#faq">FAQ</a>
           <a href="#after-request">After request</a>
           <a href="#sample">Sample report</a>
-          <a href="#guides">Guides</a>
+          <a href="/guides">Guides</a>
         </nav>
 
         <a className="header-cta" href="#checker">
@@ -1153,20 +1145,17 @@ function HomePage() {
           </div>
 
           <div className="guide-grid">
-            {guides.map((guide) => {
-              const slug = guide
-                .toLowerCase()
-                .replace(/[^a-z0-9]+/g, "-")
-                .replace(/^-|-$/g, "");
-
-              return (
-                <a className="guide-card" href={`/guides/${slug}`} key={guide}>
-                  <span>Guide</span>
-                  <h3>{guide}</h3>
-                  <p>Cause, checklist, free preflight and paid report CTA.</p>
-                </a>
-              );
-            })}
+            {guidePages.map((guide) => (
+              <a
+                className="guide-card"
+                href={`/guides/${guide.slug}`}
+                key={guide.slug}
+              >
+                <span>{guide.issueName}</span>
+                <h3>{guide.title}</h3>
+                <p>{guide.metaDescription}</p>
+              </a>
+            ))}
           </div>
         </section>
 
