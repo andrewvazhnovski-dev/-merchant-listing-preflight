@@ -1290,7 +1290,7 @@ function App() {
     <>
       <SEOHead />
       <Routes>
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="/" element={<HomePage />} />
         <Route
           path="/merchant-center-issues"
           element={<MerchantCenterIssuesPage />}
@@ -1312,7 +1312,7 @@ function App() {
         <Route path="/sample-report" element={<SampleReportPage />} />
         <Route path="/terms" element={<TermsPage />} />
         <Route path="/privacy" element={<PrivacyPage />} />
-        <Route path="*" element={<HomePage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </>
   );
