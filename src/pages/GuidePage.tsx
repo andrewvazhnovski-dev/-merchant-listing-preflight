@@ -67,6 +67,7 @@ function GuidePage() {
           <span className="footer-links">
             <span>Diagnostic service. No Google approval guarantee.</span>
             <Link to="/terms">Terms</Link>
+            <Link to="/privacy">Privacy</Link>
           </span>
         </footer>
       </div>
