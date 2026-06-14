@@ -14,6 +14,7 @@ import FeaturedGuides from "./components/FeaturedGuides";
 import FAQSchema from "./components/FAQSchema";
 import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
 import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPage";
+import GoogleMerchantCenterReviewChecklistPage from "./pages/GoogleMerchantCenterReviewChecklistPage";
 
 type CsvRow = Record<string, string>;
 
@@ -664,6 +665,9 @@ function HomePage() {
             <a href="#checker">Checker</a>
             <a href="/affected-products-csv-checker">CSV checker</a>
             <a href="/merchant-center-issues">Issues</a>
+            <a href="/google-merchant-center-review-checklist">
+              Review checklist
+            </a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
@@ -822,6 +826,32 @@ function HomePage() {
                 href="/affected-products-csv-checker"
               >
                 Open CSV checker page
+              </a>
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="review-checklist-promo">
+              <div>
+                <div className="eyebrow">Review readiness checklist</div>
+
+                <h2>
+                  Before requesting another review, check the signals that
+                  usually fail.
+                </h2>
+
+                <p>
+                  Review feed data, landing page content, structured data,
+                  redirects, policy pages and target country consistency before
+                  sending products back for review.
+                </p>
+              </div>
+
+              <a
+                className="btn secondary"
+                href="/google-merchant-center-review-checklist"
+              >
+                Open review checklist
               </a>
             </div>
           </section>
@@ -1239,6 +1269,10 @@ function App() {
       <Route
         path="/affected-products-csv-checker"
         element={<AffectedProductsCsvCheckerPage />}
+      />
+      <Route
+        path="/google-merchant-center-review-checklist"
+        element={<GoogleMerchantCenterReviewChecklistPage />}
       />
       <Route path="/guides" element={<GuidesIndexPage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
