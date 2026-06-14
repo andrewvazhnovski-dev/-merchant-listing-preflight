@@ -7,6 +7,7 @@ import HowItWorks from "./components/HowItWorks";
 import TermsPage from "./pages/TermsPage";
 import FAQ from "./components/FAQ";
 import AfterRequest from "./components/AfterRequest";
+import PaymentNote from "./components/PaymentNote";
 
 type CsvRow = Record<string, string>;
 
@@ -1068,6 +1069,10 @@ function HomePage() {
 
         <section id="after-request" className="section">
           <AfterRequest />
+        </section>
+
+        <section id="payment-note" className="section">
+          <PaymentNote />
         </section>
 
         <section id="order" className="section">
