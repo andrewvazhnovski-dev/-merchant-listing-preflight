@@ -1,6 +1,7 @@
 import { useMemo, useState, type ChangeEvent } from "react";
 import { Route, Routes } from "react-router-dom";
 import GuidePage from "./pages/GuidePage";
+import GuidesIndexPage from "./pages/GuidesIndexPage";
 import SampleReportPage from "./pages/SampleReportPage";
 import OrderForm from "./components/OrderForm";
 import HowItWorks from "./components/HowItWorks";
@@ -1202,6 +1203,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/guides" element={<GuidesIndexPage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
       <Route path="/sample-report" element={<SampleReportPage />} />
       <Route path="/terms" element={<TermsPage />} />

@@ -33,7 +33,7 @@ function PrivacyPage() {
         <nav className="nav">
           <Link to="/">Home</Link>
           <Link to="/sample-report">Sample report</Link>
-          <Link to="/guides/how-to-fix-mismatched-product-price">Guides</Link>
+          <Link to="/guides">Guides</Link>
         </nav>
 
         <Link className="header-cta" to="/#order">
