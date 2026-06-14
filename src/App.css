@@ -1860,3 +1860,40 @@ textarea:focus {
     padding: 24px;
   }
 }
+
+.diagnostic-report-promo {
+  display: grid;
+  grid-template-columns: 1.4fr auto;
+  gap: 22px;
+  align-items: center;
+  padding: 32px;
+  border: 1px solid rgba(69, 224, 168, 0.26);
+  border-radius: 30px;
+  background:
+    radial-gradient(
+      circle at 18% 0%,
+      rgba(69, 224, 168, 0.14),
+      transparent 24rem
+    ),
+    var(--card);
+  box-shadow: var(--shadow);
+}
+
+.diagnostic-report-promo h2 {
+  margin-bottom: 14px;
+  font-size: clamp(30px, 4vw, 54px);
+  line-height: 0.95;
+}
+
+.diagnostic-report-promo p {
+  max-width: 760px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+
+@media (max-width: 900px) {
+  .diagnostic-report-promo {
+    grid-template-columns: 1fr;
+    padding: 24px;
+  }
+}

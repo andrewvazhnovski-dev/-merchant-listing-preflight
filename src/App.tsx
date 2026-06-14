@@ -15,6 +15,7 @@ import FAQSchema from "./components/FAQSchema";
 import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
 import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPage";
 import GoogleMerchantCenterReviewChecklistPage from "./pages/GoogleMerchantCenterReviewChecklistPage";
+import MerchantCenterDiagnosticReportPage from "./pages/MerchantCenterDiagnosticReportPage";
 
 type CsvRow = Record<string, string>;
 
@@ -668,6 +669,7 @@ function HomePage() {
             <a href="/google-merchant-center-review-checklist">
               Review checklist
             </a>
+            <a href="/merchant-center-diagnostic-report">Diagnostic report</a>
             <a href="#how-it-works">How it works</a>
             <a href="#pricing">Pricing</a>
             <a href="#faq">FAQ</a>
@@ -852,6 +854,29 @@ function HomePage() {
                 href="/google-merchant-center-review-checklist"
               >
                 Open review checklist
+              </a>
+            </div>
+          </section>
+
+          <section className="section">
+            <div className="diagnostic-report-promo">
+              <div>
+                <div className="eyebrow">Diagnostic report</div>
+
+                <h2>Need more than a free preflight summary?</h2>
+
+                <p>
+                  Get a fixed-scope Merchant Center diagnostic report with
+                  likely root cause, affected product examples, evidence notes,
+                  priority fix order and review preparation.
+                </p>
+              </div>
+
+              <a
+                className="btn secondary"
+                href="/merchant-center-diagnostic-report"
+              >
+                View diagnostic report service
               </a>
             </div>
           </section>
@@ -1273,6 +1298,10 @@ function App() {
       <Route
         path="/google-merchant-center-review-checklist"
         element={<GoogleMerchantCenterReviewChecklistPage />}
+      />
+      <Route
+        path="/merchant-center-diagnostic-report"
+        element={<MerchantCenterDiagnosticReportPage />}
       />
       <Route path="/guides" element={<GuidesIndexPage />} />
       <Route path="/guides/:slug" element={<GuidePage />} />
