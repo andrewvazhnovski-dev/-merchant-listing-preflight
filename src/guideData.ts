@@ -613,6 +613,125 @@ export const guidePages: GuidePageData[] = [
       "Verify and claim the website.",
       "Wait for review after the site is consistent.",
     ],
+    seoSections: [
+      {
+        title: "What pending website check means",
+        paragraphs: [
+          "Pending website check means Merchant Center still needs to evaluate whether your website is ready for merchant listings, product visibility and product review.",
+          "This does not always mean one product field is wrong. It can involve website verification, crawlability, trust pages, product page quality, checkout accessibility and account-level readiness.",
+        ],
+      },
+      {
+        title: "Common causes of pending website check",
+        paragraphs: [
+          "Pending website check often appears on new stores, recently migrated stores, newly connected Merchant Center accounts or stores with incomplete trust signals.",
+          "Before pushing more products, it is safer to check the website itself: homepage, product pages, policy pages, checkout flow, robots.txt, noindex tags and structured data.",
+        ],
+        bullets: [
+          "Website is new or recently connected to Merchant Center.",
+          "Website verification or claim status is incomplete.",
+          "Contact, shipping or return policy pages are missing.",
+          "Product pages are thin, broken or not crawlable.",
+          "Robots.txt or noindex tags block important pages.",
+          "Checkout is inaccessible or unclear.",
+          "Product / Offer structured data is missing or inconsistent.",
+        ],
+      },
+      {
+        title: "Website verification and claim status",
+        paragraphs: [
+          "Merchant Center needs to know that the website belongs to the account. If the website is not verified or claimed correctly, product review can remain blocked or delayed.",
+          "Check that the domain verified in Merchant Center matches the real domain where product landing pages are hosted. This is especially important after domain changes, Shopify development domains or moving from a temporary URL to a custom domain.",
+        ],
+        bullets: [
+          "Check verified website domain in Merchant Center.",
+          "Check claimed website status.",
+          "Confirm that product URLs use the same domain.",
+          "Remove temporary or old domains from feed links.",
+          "Make sure www and non-www versions are handled consistently.",
+        ],
+      },
+      {
+        title: "Trust pages Merchant Center expects",
+        paragraphs: [
+          "A store should provide clear information for customers before Google can confidently evaluate it. Weak or missing trust pages can slow down review readiness.",
+          "The exact requirements depend on the store, country and business model, but the basic pages should be visible, crawlable and consistent with the checkout experience.",
+        ],
+        bullets: [
+          "Contact page with clear contact information.",
+          "Shipping policy.",
+          "Return and refund policy.",
+          "Privacy policy.",
+          "Terms or store policies.",
+          "Business identity or store information where relevant.",
+          "Consistent footer links to important policy pages.",
+        ],
+      },
+      {
+        title: "Crawlability and technical access",
+        paragraphs: [
+          "Merchant Center needs to access the website and product pages. If important pages are blocked by robots.txt, noindex tags, redirects, password protection or JavaScript errors, the review can be delayed or fail.",
+          "Check the public version of the website, not only the admin preview. The product page should be reachable by a normal visitor without login or special permissions.",
+        ],
+        bullets: [
+          "Check robots.txt.",
+          "Check noindex tags.",
+          "Check product page HTTP status.",
+          "Check redirect behavior.",
+          "Check whether pages require login.",
+          "Check whether product content loads for normal visitors.",
+          "Check mobile and desktop accessibility.",
+        ],
+      },
+      {
+        title: "Product page readiness",
+        paragraphs: [
+          "Product pages should clearly show the submitted product, price, availability, image, description and purchase path. If product pages are incomplete or inconsistent, website check readiness can suffer.",
+          "The goal is not only to have pages online, but to make them trustworthy, crawlable and consistent with product feed data.",
+        ],
+        bullets: [
+          "Product title is visible.",
+          "Product image is visible.",
+          "Price is visible and matches the feed.",
+          "Availability is visible and accurate.",
+          "Add-to-cart or purchase path is clear.",
+          "Product description is not empty.",
+          "Product page does not redirect unexpectedly.",
+        ],
+      },
+      {
+        title: "Checkout and customer experience",
+        paragraphs: [
+          "A website can look complete but still fail readiness signals if checkout is broken, unclear or inconsistent. Google may evaluate whether users can reasonably complete a purchase.",
+          "Before requesting another review, test the store like a real customer: open product page, add item to cart, go to checkout and verify that shipping, returns and contact information are accessible.",
+        ],
+        bullets: [
+          "Add-to-cart works.",
+          "Cart page works.",
+          "Checkout opens without errors.",
+          "Shipping information is clear before purchase.",
+          "Return information is accessible.",
+          "Contact information is easy to find.",
+          "No broken policy links in footer or checkout.",
+        ],
+      },
+      {
+        title: "What to fix before waiting for review",
+        paragraphs: [
+          "Do not only wait passively if the website is incomplete. Fix the visible trust, crawlability and product page issues first, then allow Merchant Center time to re-evaluate the site.",
+          "A clean website readiness pass reduces the chance that product-level issues will continue to appear after the website check is complete.",
+        ],
+        bullets: [
+          "Website is verified and claimed.",
+          "Important policy pages are published.",
+          "Product pages are crawlable.",
+          "Robots and noindex are not blocking important pages.",
+          "Product pages show price and availability clearly.",
+          "Checkout path works.",
+          "Product / Offer structured data is present where possible.",
+        ],
+      },
+    ],
   },
   {
     slug: "product-offer-structured-data-checklist",
