@@ -186,6 +186,104 @@ export const guidePages: GuidePageData[] = [
       "Avoid sending in stock for unavailable variants.",
       "Resubmit affected products after consistency is verified.",
     ],
+    seoSections: [
+      {
+        title: "What mismatched product availability means",
+        paragraphs: [
+          "The mismatched product availability issue means Google detected different stock signals between your product feed, landing page, Product / Offer structured data or visible product page content.",
+          "For example, your feed may say the product is in stock, while the page says sold out. The opposite can also happen: the feed sends out of stock, but the product page still allows users to buy the item.",
+        ],
+      },
+      {
+        title: "Common causes of availability mismatch",
+        paragraphs: [
+          "Availability mismatches are usually caused by delayed inventory sync, variant-level stock logic, cached product pages or stale structured data. This is especially common on stores where inventory changes often.",
+          "The safest way to diagnose the issue is to compare the affected-products CSV with the final product landing page and the Product / Offer JSON-LD on that same URL.",
+        ],
+        bullets: [
+          "Feed availability updates slower than website inventory.",
+          "Product page says sold out while the feed still sends in stock.",
+          "Structured data still contains an old InStock or OutOfStock value.",
+          "Variants have different stock states.",
+          "The default selected variant is unavailable.",
+          "Cached product pages show old stock information.",
+          "Inventory changes by country, warehouse or delivery zone.",
+        ],
+      },
+      {
+        title: "Feed availability vs landing page availability",
+        paragraphs: [
+          "Start with the exact affected product URLs from Merchant Center. Do not only check the product in your admin panel. Google evaluates the final landing page that users and crawlers can access.",
+          "The feed availability value should match what a normal visitor sees on the product page. If the page says sold out, unavailable, backorder or preorder, the feed should not send a conflicting in stock value.",
+        ],
+        bullets: [
+          "Open several affected URLs from the CSV.",
+          "Compare feed availability with visible product page availability.",
+          "Check whether the add-to-cart button is enabled or disabled.",
+          "Check whether the page shows sold out, backorder or preorder text.",
+          "Check whether the product is available in the target country.",
+        ],
+      },
+      {
+        title: "Variant availability problems",
+        paragraphs: [
+          "Variant logic is one of the most common reasons for availability mismatch. A parent product may appear available, but the selected size, color or variant may be out of stock.",
+          "If your feed submits variant-specific product IDs, each submitted variant should lead to a landing page experience that clearly matches that variant's stock status.",
+        ],
+        bullets: [
+          "Check the submitted product ID.",
+          "Check whether the feed item represents a parent product or variant.",
+          "Select the exact size, color or option on the page.",
+          "Confirm that the selected variant stock matches the feed.",
+          "Avoid sending in stock for unavailable variants.",
+        ],
+      },
+      {
+        title: "Structured data availability mismatch",
+        paragraphs: [
+          "Google can read Product / Offer structured data from the product page. If the visible page says the product is sold out but JSON-LD still says InStock, this creates a conflicting signal.",
+          "Inspect the Product / Offer markup and check the availability field. It should match the actual product page and the feed availability value.",
+        ],
+        bullets: [
+          "Check Product JSON-LD.",
+          "Check Offer availability.",
+          "Look for InStock, OutOfStock, PreOrder or BackOrder values.",
+          "Check whether multiple Offer blocks expose different availability.",
+          "Check whether your theme or plugin outputs stale schema.",
+        ],
+      },
+      {
+        title: "Caching and inventory sync issues",
+        paragraphs: [
+          "Availability can change quickly, but cached pages and delayed feed updates can expose old stock information. This can make Merchant Center see one value while your store admin shows another.",
+          "After fixing inventory logic, clear page cache, CDN cache and theme/plugin cache where relevant. Then wait for the feed and page data to become consistent before requesting review.",
+        ],
+        bullets: [
+          "Check store inventory sync timing.",
+          "Check feed generation schedule.",
+          "Clear product page cache.",
+          "Clear CDN cache if used.",
+          "Check whether old availability remains in page source.",
+          "Recheck affected URLs after cache is cleared.",
+        ],
+      },
+      {
+        title: "What to fix before requesting another review",
+        paragraphs: [
+          "Do not request another review until the feed, visible product page and structured data all show the same availability status. Repeated reviews without consistency can lead to another rejection cycle.",
+          "Before review, test several affected URLs manually and save notes about what changed. This helps confirm that the issue is actually fixed rather than temporarily hidden.",
+        ],
+        bullets: [
+          "Feed availability matches visible product page availability.",
+          "Variant-level stock status is correct.",
+          "Product / Offer JSON-LD availability is updated.",
+          "Sold out, preorder or backorder text is clear.",
+          "Add-to-cart behavior matches the submitted availability.",
+          "Cache has been cleared.",
+          "Several affected URLs were checked manually before review.",
+        ],
+      },
+    ],
   },
   {
     slug: "how-to-fix-mismatched-domains",
