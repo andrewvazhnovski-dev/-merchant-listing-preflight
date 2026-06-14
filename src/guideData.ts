@@ -768,6 +768,138 @@ export const guidePages: GuidePageData[] = [
       "Add shipping and return policy markup when ready.",
       "Test again after deployment.",
     ],
+    seoSections: [
+      {
+        title: "What Product / Offer structured data means",
+        paragraphs: [
+          "Product / Offer structured data is machine-readable markup that helps search engines understand product information on a landing page. For merchant listing readiness, the most important fields usually include product name, image, price, currency, availability, URL and offer details.",
+          "Structured data does not replace your product feed or visible page content. It should support the same product information that users can see on the landing page and that you submit to Merchant Center.",
+        ],
+      },
+      {
+        title: "Why structured data matters for Merchant Center",
+        paragraphs: [
+          "Google can compare signals from your product feed, landing page content and structured data. If the feed says one price or availability value but JSON-LD exposes another value, the product can look inconsistent.",
+          "Clean Product / Offer markup can help reduce conflicting signals, especially for stores with frequent price changes, variants, sale prices, stock updates or multiple regional versions.",
+        ],
+        bullets: [
+          "Product markup helps identify the item on the page.",
+          "Offer markup exposes price, currency and availability.",
+          "Structured data can reveal stale product values.",
+          "Multiple schema blocks can create conflicting signals.",
+          "Theme or plugin-generated schema can become outdated.",
+          "Structured data should match visible page content.",
+        ],
+      },
+      {
+        title: "Product JSON-LD checklist",
+        paragraphs: [
+          "Start by confirming that the product page contains Product structured data. The Product object should describe the same product shown on the page and submitted in the feed.",
+          "If the page has no Product markup, merchant listing signals may rely more heavily on feed and visible page content. If the page has incorrect Product markup, it can create confusion.",
+        ],
+        bullets: [
+          "Check that @type includes Product.",
+          "Check product name.",
+          "Check product image.",
+          "Check product description where available.",
+          "Check SKU, GTIN or MPN when relevant.",
+          "Check brand when relevant.",
+          "Make sure the Product object describes the current page product.",
+        ],
+      },
+      {
+        title: "Offer JSON-LD checklist",
+        paragraphs: [
+          "The Offer object is especially important because it usually contains price, priceCurrency and availability. These fields should match the visible landing page and submitted product data.",
+          "If the Offer object is missing, incomplete or stale, the page can expose weak or conflicting merchant listing signals.",
+        ],
+        bullets: [
+          "Check that an Offer object exists.",
+          "Check price.",
+          "Check priceCurrency.",
+          "Check availability.",
+          "Check URL if provided.",
+          "Check itemCondition if relevant.",
+          "Check whether multiple Offer blocks expose different values.",
+        ],
+      },
+      {
+        title: "Price and currency structured data issues",
+        paragraphs: [
+          "Price and currency mismatches are among the most common structured data problems. The visible product page, feed price and Offer price should all agree for the target country and currency.",
+          "If your store changes prices dynamically, uses automatic currency conversion or displays tax differently by country, check whether JSON-LD updates together with the visible page.",
+        ],
+        bullets: [
+          "Offer price matches the visible product page price.",
+          "priceCurrency matches the feed currency.",
+          "Sale price logic does not leave stale schema values.",
+          "Currency switchers do not create conflicting markup.",
+          "Cached pages do not expose old price values.",
+        ],
+      },
+      {
+        title: "Availability structured data issues",
+        paragraphs: [
+          "Availability should describe whether the product can actually be purchased. If the visible page says sold out but JSON-LD still says InStock, Google may see a conflict.",
+          "Variant-level products need extra attention because one variant can be available while another is sold out. The submitted product and the visible selected variant should match the structured data.",
+        ],
+        bullets: [
+          "availability matches visible stock status.",
+          "InStock is not used for sold-out products.",
+          "OutOfStock is not used for purchasable products.",
+          "PreOrder or BackOrder is used only when accurate.",
+          "Variant stock status matches the submitted product ID.",
+          "Cached schema does not expose old availability.",
+        ],
+      },
+      {
+        title: "Canonical, shipping and return policy signals",
+        paragraphs: [
+          "Structured data should not contradict canonical URL strategy. If the page canonical points to a different product, region or domain, the product signal can become weaker or confusing.",
+          "Shipping details and return policy markup can also support merchant listing readiness when implemented correctly. They should reflect real store policies and not conflict with visible policy pages.",
+        ],
+        bullets: [
+          "Canonical URL points to the correct product page.",
+          "Schema URL does not point to a different product.",
+          "Shipping details are accurate if used.",
+          "Return policy markup matches the real policy page.",
+          "Policy information is visible to users.",
+          "Structured data does not claim unavailable policies.",
+        ],
+      },
+      {
+        title: "Theme and plugin schema problems",
+        paragraphs: [
+          "Many stores rely on themes, SEO plugins or e-commerce apps to generate Product schema automatically. This can work, but plugins sometimes output old values, duplicate Product blocks or incomplete Offer data.",
+          "After theme updates, app changes or product template edits, recheck the page source. Do not assume schema is correct just because a plugin is installed.",
+        ],
+        bullets: [
+          "Check whether the theme outputs Product schema.",
+          "Check whether an app outputs duplicate Product schema.",
+          "Check for multiple conflicting Offer objects.",
+          "Check whether schema updates after product edits.",
+          "Check whether old app code remains in the template.",
+          "Test after theme or plugin changes.",
+        ],
+      },
+      {
+        title: "What to fix before requesting another review",
+        paragraphs: [
+          "Before requesting another review, make sure structured data supports the same product information shown on the page and submitted in the feed.",
+          "Structured data alone will not guarantee approval, but removing conflicts between feed, page and schema can reduce avoidable Merchant Center review problems.",
+        ],
+        bullets: [
+          "Product JSON-LD exists on product pages.",
+          "Offer contains price, priceCurrency and availability.",
+          "Schema price matches visible page price.",
+          "Schema availability matches visible stock status.",
+          "Canonical URL is consistent.",
+          "Duplicate schema blocks do not conflict.",
+          "Shipping and return policy markup is accurate if used.",
+          "Several affected product pages were tested after deployment.",
+        ],
+      },
+    ],
   },
 ];
 
