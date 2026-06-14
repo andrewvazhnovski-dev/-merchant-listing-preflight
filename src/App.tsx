@@ -16,7 +16,7 @@ import MerchantCenterIssuesPage from "./pages/MerchantCenterIssuesPage";
 import AffectedProductsCsvCheckerPage from "./pages/AffectedProductsCsvCheckerPage";
 import GoogleMerchantCenterReviewChecklistPage from "./pages/GoogleMerchantCenterReviewChecklistPage";
 import MerchantCenterDiagnosticReportPage from "./pages/MerchantCenterDiagnosticReportPage";
-import SEOCanonical from "./components/SEOCanonical";
+import SEOHead from "./components/SEOHead";
 
 type CsvRow = Record<string, string>;
 
@@ -1287,7 +1287,7 @@ function HomePage() {
 function App() {
   return (
     <>
-      <SEOCanonical />
+      <SEOHead />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route
