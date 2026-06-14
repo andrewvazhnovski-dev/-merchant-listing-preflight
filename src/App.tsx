@@ -3,6 +3,7 @@ import { Route, Routes } from "react-router-dom";
 import GuidePage from "./pages/GuidePage";
 import SampleReportPage from "./pages/SampleReportPage";
 import OrderForm from "./components/OrderForm";
+import HowItWorks from "./components/HowItWorks";
 
 type CsvRow = Record<string, string>;
 
@@ -662,6 +663,7 @@ function HomePage() {
 
         <nav className="nav">
           <a href="#checker">Checker</a>
+          <a href="#how-it-works">How it works</a>
           <a href="#pricing">Pricing</a>
           <a href="#sample">Sample report</a>
           <a href="#guides">Guides</a>
@@ -1015,6 +1017,10 @@ function HomePage() {
               </div>
             )}
           </div>
+        </section>
+
+        <section id="how-it-works" className="section">
+          <HowItWorks />
         </section>
 
         <section id="pricing" className="section">
