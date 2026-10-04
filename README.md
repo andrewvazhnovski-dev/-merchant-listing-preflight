@@ -1,73 +1,80 @@
-# React + TypeScript + Vite
+# Merchant Listing Preflight
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A browser-based React and TypeScript toolkit for triaging Google Merchant Center product-listing issues before manual review.
 
-Currently, two official plugins are available:
+## What it does
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### CSV diagnostics analyzer
 
-## React Compiler
+- Reads Merchant Center-style CSV exports locally in the browser.
+- Detects common columns such as issue, status, product ID, title, URL, price, and availability.
+- Groups affected products by issue.
+- Assigns High, Medium, or Low priority.
+- Highlights missing fields and representative product URLs.
+- Includes demo data for a quick walkthrough.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Product structured-data checker
 
-## Expanding the ESLint configuration
+- Accepts raw JSON-LD or HTML containing `application/ld+json`.
+- Locates `Product` and `Offer` objects.
+- Checks price, currency, availability, canonical URL, hreflang, shipping details, and return-policy signals.
+- Returns prioritized pass, warning, and failure results.
+- Handles malformed or incomplete input without crashing the interface.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+### Supporting pages
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+- Sample diagnostic report.
+- Merchant Center issue guides and review checklist.
+- Reusable FAQ, order-flow, SEO metadata, privacy, and terms components.
+- Responsive routed interface with a custom not-found page.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+## Privacy model
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Uploaded CSV files and pasted markup are processed client-side. The current application has no backend and does not log in to, modify, or automatically access a Merchant Center account.
+
+## Stack
+
+- React 19
+- TypeScript
+- Vite
+- React Router
+- CSS / Sass
+- ESLint
+
+## Run locally
+
+```bash
+npm install
+npm run dev
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Production and quality checks:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```bash
+npm run lint
+npm run build
+npm run preview
 ```
+
+The current main branch passes the lint and production-build checks.
+
+## Project structure
+
+```text
+src/
+├── components/   Reusable UI, forms, FAQ, SEO, and workflow sections
+├── pages/        Guides, reports, legal pages, and diagnostic resources
+├── App.tsx       Routing plus CSV and structured-data analysis
+└── guideData.ts  Structured guide content
+
+docs/docs/
+└── report-template.md
+```
+
+## Scope and limitations
+
+This is a rule-based preflight and reporting tool. It does not guarantee account approval or reinstatement, replace an official Google decision, or perform a security audit.
+
+## Repository
+
+The commit history documents the implementation and iteration of the application. The main code sample is available in `src/App.tsx`, `src/components`, and `src/pages`.
