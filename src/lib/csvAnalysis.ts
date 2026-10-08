@@ -35,58 +35,37 @@ function normalizeText(value: string): string {
 }
 
 function parseCsv(text: string): string[][] {
+  if (text.length > 2_000_000) throw new Error("CSV is limited to 2 million characters.");
   const rows: string[][] = [];
   let row: string[] = [];
   let value = "";
-  let inQuotes = false;
-
-  const normalized = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n");
-
+  let state: "plain" | "quoted" | "closed" = "plain";
+  const normalized = text.replace(/^\uFEFF/, "").replace(/\r\n/g, "\n").replace(/\r/g, "\n");
+  const endField = () => { row.push(value.trim()); value = ""; state = "plain"; };
+  const endRow = () => {
+    endField();
+    if (row.some((cell) => cell.length > 0)) rows.push(row);
+    if (rows.length > 10_001) throw new Error("CSV is limited to 10,000 product rows.");
+    row = [];
+  };
   for (let i = 0; i < normalized.length; i += 1) {
     const char = normalized[i];
-    const next = normalized[i + 1];
-
-    if (char === '"' && inQuotes && next === '"') {
-      value += '"';
-      i += 1;
-      continue;
-    }
-
-    if (char === '"') {
-      inQuotes = !inQuotes;
-      continue;
-    }
-
-    if (char === "," && !inQuotes) {
-      row.push(value.trim());
-      value = "";
-      continue;
-    }
-
-    if (char === "\n" && !inQuotes) {
-      row.push(value.trim());
-
-      if (row.some((cell) => cell.length > 0)) {
-        rows.push(row);
-      }
-
-      row = [];
-      value = "";
-      continue;
-    }
-
-    value += char;
+    if (state === "quoted") {
+      if (char === '"') {
+        if (normalized[i + 1] === '"') { value += '"'; i += 1; }
+        else state = "closed";
+      } else value += char;
+    } else if (char === ",") endField();
+    else if (char === "\n") endRow();
+    else if (state === "closed") {
+      if (!/\s/.test(char)) throw new Error("CSV contains unexpected text after a quoted field.");
+    } else if (char === '"') {
+      if (value.trim()) throw new Error("CSV contains a quote inside an unquoted field.");
+      value = ""; state = "quoted";
+    } else value += char;
   }
-
-  if (value.length > 0 || row.length > 0) {
-    row.push(value.trim());
-
-    if (row.some((cell) => cell.length > 0)) {
-      rows.push(row);
-    }
-  }
-
-  if (inQuotes) throw new Error("CSV contains an unclosed quoted field.");
+  if (state === "quoted") throw new Error("CSV contains an unclosed quoted field.");
+  if (value.length || row.length || state === "closed") endRow();
   return rows;
 }
 
@@ -100,7 +79,7 @@ function rowsToObjects(matrix: string[][]): {
   });
 
   const rows = matrix.slice(1).map((line) => {
-    const row: CsvRow = {};
+    const row: CsvRow = Object.create(null);
 
     headers.forEach((header, index) => {
       row[header] = line[index] ?? "";
@@ -171,14 +150,18 @@ export function analyzeCsvText(
 
   const rawHeaders = matrix[0] ?? [];
   const normalizedHeaders = rawHeaders.map(normalizeText);
-  const duplicate = normalizedHeaders.find((header, index) =>
+  const generatedHeaders = rawHeaders.map((header, index) => header.trim() || `column_${index + 1}`);
+  const duplicate = normalizedHeaders.some((header, index) =>
     header.length > 0 && normalizedHeaders.indexOf(header) !== index,
-  );
-  if (duplicate) {
+  ) || new Set(generatedHeaders.map(normalizeText)).size !== generatedHeaders.length;
+  const invalidRow = matrix.slice(1).findIndex((row) => row.length !== rawHeaders.length);
+  if (duplicate || invalidRow !== -1) {
     return {
       fileName, rowsCount: 0, headers: rawHeaders, detectedColumns: {},
       issueGroups: [], topUrls: [],
-      warnings: ["CSV contains duplicate column names. Rename the repeated headers before analyzing."],
+      warnings: [duplicate
+        ? "CSV contains duplicate column names. Rename the repeated headers before analyzing."
+        : `CSV product row ${invalidRow + 1} has a different number of cells than the header. Check delimiters and quotes.`],
     };
   }
 
