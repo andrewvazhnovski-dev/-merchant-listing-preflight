@@ -26,7 +26,7 @@ The application does not fetch or crawl the submitted product URLs. A detected f
 
 The analyzer supports comma-delimited CSV, quoted commas, escaped quotes, multiline fields, CRLF line endings and a UTF-8 BOM. Exact known column aliases take precedence over longer labels. Short aliases match whole phrases, so `Grid` is not treated as an `ID` field.
 
-Repeated column names and unclosed quoted fields produce a warning instead of a misleading analysis. This is not a general-purpose CSV library: semicolon- and tab-delimited exports are not currently supported.
+Repeated column names (including generated blank-header collisions), malformed quoted fields and rows with missing or extra cells produce a warning instead of a misleading analysis. Input is capped at 2 million characters and 10,000 product rows. This is not a general-purpose CSV library: semicolon- and tab-delimited exports are not currently supported.
 
 ## Run and verify
 
@@ -48,7 +48,7 @@ The regression suite covers quoted data, line endings, BOM headers, column selec
 
 ## Privacy and boundaries
 
-CSV files and pasted markup are analyzed client-side. There is no Merchant Center account connection, backend diagnostic service or automated account repair. Sending an optional report request is a separate action.
+CSV files and pasted markup are analyzed client-side. There is no Merchant Center account connection, backend diagnostic service or automated account repair. The optional contact form validates the URL and email before opening a draft in the user’s email app; it does not send a request or contact a backend.
 
 Issue priorities are heuristic. The structured-data checker inspects supplied markup; it does not establish Google policy compliance or verify live prices and stock. No approval or reinstatement guarantee is made.
 
