@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react";
 
-const CONTACT_EMAIL = "flankero2146@gmail.com";
+const CONTACT_EMAIL = "flankero4697@gmail.com";
 
 const issueTypes = [
   "Mismatched product price",
@@ -111,13 +111,17 @@ Thanks.`);
 
         <form
           className="order-form"
-          onSubmit={(event) => event.preventDefault()}
+          onSubmit={(event) => {
+            event.preventDefault();
+            window.location.href = mailtoLink;
+          }}
         >
           <label className="field-label" htmlFor="store-url">
             Store URL
           </label>
           <input
             id="store-url"
+            required
             type="url"
             value={storeUrl}
             onChange={(event) => setStoreUrl(event.target.value)}
@@ -130,6 +134,7 @@ Thanks.`);
           </label>
           <input
             id="client-email"
+            required
             type="email"
             value={clientEmail}
             onChange={(event) => setClientEmail(event.target.value)}
@@ -196,9 +201,9 @@ Thanks.`);
             title="Issue details"
           />
 
-          <a className="btn primary full" href={mailtoLink}>
-            Request diagnostic report
-          </a>
+          <button className="btn primary full" type="submit">
+            Open email draft
+          </button>
 
           <div className="email-fallback">
             <p>
@@ -231,3 +236,4 @@ Thanks.`);
 }
 
 export default OrderForm;
+
