@@ -1,80 +1,60 @@
 # Merchant Listing Preflight
 
-A browser-based React and TypeScript toolkit for triaging Google Merchant Center product-listing issues before manual review.
+[Live application](https://merchant-listing-preflight.pages.dev/)
 
-## What it does
+An independent React and TypeScript project for inspecting Merchant Center-style CSV exports and product JSON-LD. It provides a local first pass before manual investigation. This is a personal product, not a commissioned client case study.
 
-### CSV diagnostics analyzer
+## Try the main flows
 
-- Reads Merchant Center-style CSV exports locally in the browser.
-- Detects common columns such as issue, status, product ID, title, URL, price, and availability.
-- Groups affected products by issue.
-- Assigns High, Medium, or Low priority.
-- Highlights missing fields and representative product URLs.
-- Includes demo data for a quick walkthrough.
+1. Open the live application and select the CSV checker.
+2. Load the included demo to inspect grouped issues, priorities and sample product URLs.
+3. Upload your own export. Data is processed in the browser.
+4. Use the structured-data checker with pasted JSON-LD or an HTML fragment.
+5. Review the findings and investigate the source data manually.
 
-### Product structured-data checker
+The application does not fetch or crawl the submitted product URLs. A detected field is not proof that the field is accurate, or that Google will approve a listing.
 
-- Accepts raw JSON-LD or HTML containing `application/ld+json`.
-- Locates `Product` and `Offer` objects.
-- Checks price, currency, availability, canonical URL, hreflang, shipping details, and return-policy signals.
-- Returns prioritized pass, warning, and failure results.
-- Handles malformed or incomplete input without crashing the interface.
+## Implementation
 
-### Supporting pages
+- React 19 and TypeScript, built with Vite.
+- React Router for guides, reports, legal pages and the not-found route.
+- CSV parsing and issue classification in `src/lib/csvAnalysis.ts`, separated from rendering.
+- Reusable form, FAQ and metadata components in `src/components`.
+- Responsive CSS and local demo data.
 
-- Sample diagnostic report.
-- Merchant Center issue guides and review checklist.
-- Reusable FAQ, order-flow, SEO metadata, privacy, and terms components.
-- Responsive routed interface with a custom not-found page.
+## CSV input handling
 
-## Privacy model
+The analyzer supports comma-delimited CSV, quoted commas, escaped quotes, multiline fields, CRLF line endings and a UTF-8 BOM. Exact known column aliases take precedence over longer labels. Short aliases match whole phrases, so `Grid` is not treated as an `ID` field.
 
-Uploaded CSV files and pasted markup are processed client-side. The current application has no backend and does not log in to, modify, or automatically access a Merchant Center account.
+Repeated column names and unclosed quoted fields produce a warning instead of a misleading analysis. This is not a general-purpose CSV library: semicolon- and tab-delimited exports are not currently supported.
 
-## Stack
+## Run and verify
 
-- React 19
-- TypeScript
-- Vite
-- React Router
-- CSS / Sass
-- ESLint
-
-## Run locally
+Use Node.js 24 or later. The tests use Node's built-in runner and native TypeScript support.
 
 ```bash
-npm install
+npm ci
 npm run dev
 ```
 
-Production and quality checks:
-
 ```bash
+npm test
 npm run lint
 npm run build
 npm run preview
 ```
 
-The current main branch passes the lint and production-build checks.
+The regression suite covers quoted data, line endings, BOM headers, column selection, duplicate headers, empty issue values and malformed input. CI runs tests, lint and the production build.
 
-## Project structure
+## Privacy and boundaries
 
-```text
-src/
-├── components/   Reusable UI, forms, FAQ, SEO, and workflow sections
-├── pages/        Guides, reports, legal pages, and diagnostic resources
-├── App.tsx       Routing plus CSV and structured-data analysis
-└── guideData.ts  Structured guide content
+CSV files and pasted markup are analyzed client-side. There is no Merchant Center account connection, backend diagnostic service or automated account repair. Sending an optional report request is a separate action.
 
-docs/docs/
-└── report-template.md
-```
+Issue priorities are heuristic. The structured-data checker inspects supplied markup; it does not establish Google policy compliance or verify live prices and stock. No approval or reinstatement guarantee is made.
 
-## Scope and limitations
+## Engineering notes
 
-This is a rule-based preflight and reporting tool. It does not guarantee account approval or reinstatement, replace an official Google decision, or perform a security audit.
+The current interface and structured-data analysis still share `src/App.tsx`; CSV analysis has been extracted into a separate module as the first refactoring step. The remaining logic can be extracted and tested in the same way.
 
-## Repository
+The tests currently cover CSV behavior. Browser-level interaction tests and keyboard/screen-reader checks remain to be added.
 
-The commit history documents the implementation and iteration of the application. The main code sample is available in `src/App.tsx`, `src/components`, and `src/pages`.
