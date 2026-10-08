@@ -1,5 +1,5 @@
 import { analyzeCsvText, type CsvAnalysis } from "./lib/csvAnalysis";
-import { useMemo, useState, type ChangeEvent } from "react";
+import { useMemo, useRef, useState, type ChangeEvent } from "react";
 import { Route, Routes } from "react-router-dom";
 import GuidePage from "./pages/GuidePage";
 import GuidesIndexPage from "./pages/GuidesIndexPage";
@@ -327,6 +327,7 @@ function analyzeSchemaInput(input: string): SchemaAnalysis {
 }
 
 function HomePage() {
+  const csvReadId = useRef(0);
   const [activeTab, setActiveTab] = useState<"csv" | "schema">("csv");
   const [csvAnalysis, setCsvAnalysis] = useState<CsvAnalysis | null>(null);
   const [schemaInput, setSchemaInput] = useState(demoJsonLd);
@@ -349,11 +350,22 @@ function HomePage() {
       return;
     }
 
-    const text = await file.text();
-    setCsvAnalysis(analyzeCsvText(text, file.name));
+    const id = ++csvReadId.current;
+    try {
+      if (file.size > 2_000_000) throw new Error("CSV file is limited to 2 MB.");
+      const text = await file.text();
+      if (id === csvReadId.current) setCsvAnalysis(analyzeCsvText(text, file.name));
+    } catch (error) {
+      if (id === csvReadId.current) setCsvAnalysis({
+        fileName: file.name, rowsCount: 0, headers: [], detectedColumns: {},
+        issueGroups: [], topUrls: [], warnings: [error instanceof Error ? error.message : "Could not read the CSV file."],
+      });
+    }
+    if (id === csvReadId.current) event.target.value = "";
   }
 
   function loadDemoCsv() {
+    csvReadId.current += 1;
     setCsvAnalysis(analyzeCsvText(demoCsv));
   }
 
