@@ -61,3 +61,25 @@ test("header-only files return a clear warning", () => {
   assert.equal(result.rowsCount, 0);
   assert.match(result.warnings[0], /no product rows/);
 });
+
+test("rejects extra and missing cells instead of losing data", () => {
+  for (const csv of ["ID,Issue\n1,Warning,Lost", "ID,Issue\n1"]) {
+    const result = analyzeCsvText(csv);
+    assert.equal(result.rowsCount, 0);
+    assert.match(result.warnings[0], /number of cells/);
+  }
+});
+test("rejects generated header collisions", () => {
+  assert.match(analyzeCsvText(",column_1\n1,Warning").warnings[0], /duplicate/);
+});
+test("rejects malformed quote positions", () => {
+  for (const csv of ['ID,Issue\n1,Warn"ing"', 'ID,Issue\n1,"Warning"junk'])
+    assert.equal(analyzeCsvText(csv).rowsCount, 0);
+});
+test("retains prototype-named CSV columns as ordinary values", () => {
+  const result = analyzeCsvText("__proto__,Issue\nProduct,Warning");
+  assert.equal(result.issueGroups[0].sample[0].__proto__, "Product");
+});
+test("bounds input size before parsing", () => {
+  assert.match(analyzeCsvText("x".repeat(2_000_001)).warnings[0], /limited/);
+});
