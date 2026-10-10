@@ -54,7 +54,7 @@ Issue priorities are heuristic. The structured-data checker inspects supplied ma
 
 ## Engineering notes
 
-The current interface and structured-data analysis still share `src/App.tsx`; CSV analysis has been extracted into a separate module as the first refactoring step. The remaining logic can be extracted and tested in the same way.
+CSV and structured-data analysis are isolated in `src/lib` and covered by regression tests. JSON-LD checks require exact Product/Offer types, a directly nested typed Offer, a non-negative decimal price, a currency recognized by the runtime and a known availability value. These checks do not establish Google eligibility or verify live store data.
 
-The tests currently cover CSV behavior. Browser-level interaction tests and keyboard/screen-reader checks remain to be added.
+The structured-data checker currently inspects the first Product and its directly nested Offer. It does not resolve JSON-LD `@id` references, expand custom contexts, validate AggregateOffer or compare multiple product variants. HTML metadata checks are heuristic. Browser-level interaction tests and keyboard/screen-reader checks remain to be added.
 

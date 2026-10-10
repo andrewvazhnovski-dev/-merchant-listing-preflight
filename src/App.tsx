@@ -1,3 +1,4 @@
+import { analyzeSchemaInput, type SchemaAnalysis } from "./lib/schemaAnalysis";
 import { analyzeCsvText, type CsvAnalysis } from "./lib/csvAnalysis";
 import { useMemo, useRef, useState, type ChangeEvent } from "react";
 import { Route, Routes } from "react-router-dom";
@@ -20,23 +21,6 @@ import MerchantCenterDiagnosticReportPage from "./pages/MerchantCenterDiagnostic
 import SEOHead from "./components/SEOHead";
 import NotFoundPage from "./pages/NotFoundPage";
 
-type CheckStatus = "pass" | "warn" | "fail";
-
-type RuleResult = {
-  label: string;
-  status: CheckStatus;
-  detail: string;
-};
-
-type SchemaAnalysis = {
-  blocks: number;
-  productFound: boolean;
-  offerFound: boolean;
-  checks: RuleResult[];
-  errors: string[];
-};
-
-type JsonMap = Record<string, unknown>;
 
 const demoCsv = `Item ID,Title,Link,Issue,Status,Price,Availability
 SKU-1001,Blue Running Shoes,https://example.com/products/blue-running-shoes,Mismatched product price,Disapproved,79.99 USD,in stock
@@ -107,224 +91,6 @@ const pricing = [
   },
 ];
 
-function isRecord(value: unknown): value is JsonMap {
-  return typeof value === "object" && value !== null && !Array.isArray(value);
-}
-
-function typeIncludes(node: JsonMap | undefined, expected: string): boolean {
-  if (!node) return false;
-
-  const type = node["@type"];
-
-  if (Array.isArray(type)) {
-    return type
-      .map(String)
-      .some((item) => item.toLowerCase().includes(expected.toLowerCase()));
-  }
-
-  return String(type ?? "")
-    .toLowerCase()
-    .includes(expected.toLowerCase());
-}
-
-function collectNodes(value: unknown): JsonMap[] {
-  const nodes: JsonMap[] = [];
-
-  function walk(input: unknown) {
-    if (Array.isArray(input)) {
-      input.forEach(walk);
-      return;
-    }
-
-    if (!isRecord(input)) {
-      return;
-    }
-
-    nodes.push(input);
-
-    const graph = input["@graph"];
-    if (graph) {
-      walk(graph);
-    }
-
-    Object.values(input).forEach((child) => {
-      if (Array.isArray(child)) {
-        child.forEach(walk);
-      } else if (isRecord(child)) {
-        walk(child);
-      }
-    });
-  }
-
-  walk(value);
-  return nodes;
-}
-
-function firstObject(value: unknown): JsonMap | undefined {
-  if (Array.isArray(value)) {
-    return value.find(isRecord);
-  }
-
-  if (isRecord(value)) {
-    return value;
-  }
-
-  return undefined;
-}
-
-function safeString(value: unknown): string {
-  if (
-    typeof value === "string" ||
-    typeof value === "number" ||
-    typeof value === "boolean"
-  ) {
-    return String(value);
-  }
-
-  return "";
-}
-
-function extractJsonLdBlocks(input: string): string[] {
-  const htmlBlocks = Array.from(
-    input.matchAll(
-      /<script[^>]+type=["']application\/ld\+json["'][^>]*>([\s\S]*?)<\/script>/gi,
-    ),
-  ).map((match) => match[1].trim());
-
-  if (htmlBlocks.length > 0) {
-    return htmlBlocks;
-  }
-
-  const trimmed = input.trim();
-
-  if (trimmed.startsWith("{") || trimmed.startsWith("[")) {
-    return [trimmed];
-  }
-
-  return [];
-}
-
-function analyzeSchemaInput(input: string): SchemaAnalysis {
-  const blocks = extractJsonLdBlocks(input);
-  const errors: string[] = [];
-  const parsed: unknown[] = [];
-
-  blocks.forEach((block, index) => {
-    try {
-      parsed.push(JSON.parse(block));
-    } catch {
-      errors.push(`JSON-LD block #${index + 1} could not be parsed.`);
-    }
-  });
-
-  const nodes = parsed.flatMap(collectNodes);
-  const product = nodes.find((node) => typeIncludes(node, "Product"));
-  const offerFromProduct = firstObject(product?.offers);
-  const offer =
-    offerFromProduct ?? nodes.find((node) => typeIncludes(node, "Offer"));
-
-  const priceSpecification = firstObject(offer?.priceSpecification);
-  const price =
-    safeString(offer?.price) || safeString(priceSpecification?.price);
-  const currency =
-    safeString(offer?.priceCurrency) ||
-    safeString(priceSpecification?.priceCurrency);
-  const availability = safeString(offer?.availability);
-
-  const canonicalMatch = input.match(
-    /<link[^>]+rel=["'][^"']*canonical[^"']*["'][^>]*>/i,
-  );
-  const canonicalHref = canonicalMatch?.[0].match(
-    /href=["']([^"']+)["']/i,
-  )?.[1];
-
-  const hasHreflang =
-    /<link[^>]+rel=["'][^"']*alternate[^"']*["'][^>]*hreflang=["'][^"']+["'][^>]*>/i.test(
-      input,
-    ) || /hreflang=["'][^"']+["']/i.test(input);
-
-  const shippingDetails = offer?.shippingDetails ?? product?.shippingDetails;
-  const returnPolicy =
-    offer?.hasMerchantReturnPolicy ?? product?.hasMerchantReturnPolicy;
-
-  const checks: RuleResult[] = [
-    {
-      label: "Product structured data",
-      status: product ? "pass" : "fail",
-      detail: product
-        ? `Product found: ${safeString(product.name) || "name not provided"}`
-        : "No Product object found in JSON-LD.",
-    },
-    {
-      label: "Offer object",
-      status: offer ? "pass" : "fail",
-      detail: offer
-        ? "Offer object found."
-        : "No Offer object found. Merchant listings usually need offer data.",
-    },
-    {
-      label: "Price",
-      status: price ? "pass" : "fail",
-      detail: price
-        ? `Price detected: ${price}`
-        : "No price detected inside Offer.",
-    },
-    {
-      label: "Currency",
-      status: currency ? "pass" : "fail",
-      detail: currency
-        ? `Currency detected: ${currency}`
-        : "No priceCurrency detected inside Offer.",
-    },
-    {
-      label: "Availability",
-      status: availability ? "pass" : "warn",
-      detail: availability
-        ? `Availability detected: ${availability}`
-        : "No availability detected inside Offer.",
-    },
-    {
-      label: "Canonical URL",
-      status: canonicalHref ? "pass" : "warn",
-      detail: canonicalHref
-        ? `Canonical found: ${canonicalHref}`
-        : "No canonical link found in pasted HTML.",
-    },
-    {
-      label: "Hreflang",
-      status: hasHreflang ? "pass" : "warn",
-      detail: hasHreflang
-        ? "Hreflang markup found."
-        : "No hreflang found. This is fine for one-language stores, but risky for multilingual stores.",
-    },
-    {
-      label: "Shipping details",
-      status: shippingDetails ? "pass" : "warn",
-      detail: shippingDetails
-        ? "Shipping details found in structured data."
-        : "No shippingDetails found. Add later for stronger merchant listing readiness.",
-    },
-    {
-      label: "Return policy",
-      status: returnPolicy ? "pass" : "warn",
-      detail: returnPolicy
-        ? "Return policy found in structured data."
-        : "No hasMerchantReturnPolicy found. Add later for stronger trust signals.",
-    },
-  ];
-
-  if (blocks.length === 0) {
-    errors.push("No JSON-LD script block or raw JSON object was found.");
-  }
-
-  return {
-    blocks: blocks.length,
-    productFound: Boolean(product),
-    offerFound: Boolean(offer),
-    checks,
-    errors,
-  };
-}
 
 function HomePage() {
   const csvReadId = useRef(0);
@@ -783,7 +549,10 @@ function HomePage() {
                     <textarea
                       id="schema-input"
                       value={schemaInput}
-                      onChange={(event) => setSchemaInput(event.target.value)}
+                      onChange={(event) => {
+                        setSchemaInput(event.target.value);
+                        setSchemaAnalysis(null);
+                      }}
                       rows={14}
                       spellCheck={false}
                       title="Paste product page HTML or JSON-LD"
